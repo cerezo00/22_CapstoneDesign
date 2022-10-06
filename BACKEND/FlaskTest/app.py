@@ -33,7 +33,17 @@ def cookieHandle():
   res = make_response("Create Cookie!!")
   res.set_cookie("myCookieName", "FunnyCookie")
   return res
-# 위 URL로 접속하고, 개발자도구(F12)를 열어 Application, Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
+# 위 URL로 접속하고, 개발자도구(F12)를 열어 Application -> Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
+
+
+# Blueprint 예제
+from blueprints import menu   
+# 모듈 가져오기. 보기 쉽게 이곳에 썼으나, import문은 가능하면 항상 파일 맨위에 위치.
+
+# blueprint 등록
+app.register_blueprint(menu.blueprint) 
+# 여기서 blueprint는 menu 파일에서 변수이름을 blueprint로 했기때문.
+# (menu.py 의 blueprint 라는 변수를 등록하는것임.)
 
 
 if __name__=="__main__":
