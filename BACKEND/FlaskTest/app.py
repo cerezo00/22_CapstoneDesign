@@ -3,7 +3,7 @@ from flask import Flask, make_response, request
 #Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
-# 라우팅 예제
+# 라우팅 예제 
 '''
 이 부분은 여러줄 주석임.
 
@@ -17,7 +17,6 @@ def 적절한함수이름():
   return 응답할 데이터를 리턴(html파일, image파일, 단순문자열, json데이터 ...)
 
 '''
-
 @app.route('/')
 def index():
   return "<h1>Hello Flask</h1>"
@@ -36,16 +35,26 @@ def cookieHandle():
 # 위 URL로 접속하고, 개발자도구(F12)를 열어 Application -> Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
 
 
-# Blueprint 예제
-from blueprints import menu   
+## Blueprint 예제 시작
+from blueprints import menu
 # 모듈 가져오기. 보기 쉽게 이곳에 썼으나, import문은 가능하면 항상 파일 맨위에 위치.
 
 # blueprint 등록
 app.register_blueprint(menu.blueprint) 
 # 여기서 blueprint는 menu 파일에서 변수이름을 blueprint로 했기때문.
 # (menu.py 의 blueprint 라는 변수를 등록하는것임.)
+## Bluprint 예제 끝
 
 
+## DB Control 예제 시작
+from blueprints import dbExample1, dbExample2, dbExample3
+app.register_blueprint(dbExample1.blueprint)
+
+## DB Control 예제 끝
+
+
+
+# 서버 실행 로직
 if __name__=="__main__":
   app.run(host="127.0.0.1", port="8000", debug=True)
   # 반드시 poetry run python app.py(파일이름) 커맨드로 실행할것.
