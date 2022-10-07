@@ -1,4 +1,4 @@
-from flask import Flask, make_response, request
+from flask import Flask, make_response, request, send_file
 
 #Flask 객체 인스턴스 생성
 app = Flask(__name__)
@@ -33,6 +33,11 @@ def cookieHandle():
   res.set_cookie("myCookieName", "FunnyCookie")
   return res
 # 위 URL로 접속하고, 개발자도구(F12)를 열어 Application -> Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
+
+@app.route('/image')
+def please():
+  return send_file('./징징이.jpg')
+  
 
 
 ## Blueprint 예제 시작
