@@ -176,9 +176,25 @@
 
   C언어의 #include <stdio.h> 처럼 다른파일을 참조시키는것.
 
-  (모듈 및 다른파일 추가 할때 [otherFile.py](http://otherFile.py) 라면 import otherFile 이 됨.(파일이름이 모듈이름), 그리고 프레임워크 내장모듈이름과의 충돌을 방지하기 위해 from . import otherFile 같은 방식으로 경로를 명시해주는것이 좋은듯. (from . → 현재경로)
+  (모듈 및 다른파일 추가 할때 [otherFile.py](http://otherFile.py) 라면 import otherFile 이 됨.(파일이름이 모듈이름), 그리고 프레임워크 내장모듈이름과의 충돌을 방지하기 위해 from . import otherFile 같은 방식으로 경로를 명시해주는것이 좋은듯. (from . → 현재경로)  
 
-  계속 추가..
+
+**클래스**  
+자바와 매우 흡사함.
+
+    class 클래스이름(상속받을클래스):
+      def __init__(self, param1, param2 .. ): # __init__이라고 정해진 이름의 생성자.  
+        self.name = param1 # 인스턴스가 생성되면 가지게되는 변수.
+      def func1(self): # self 는 함수호출시 호출한 인스턴스임. 즉, 인스턴스없이 호출불가능한 함수.
+        ...
+
+      def func2(): # 이렇게하면 인스턴스 생성없이 호출가능. 즉 자바의 정적(static) 메소드임.
+        ...  
+
+
+      
+
+계속 추가..
 
   ---
 
