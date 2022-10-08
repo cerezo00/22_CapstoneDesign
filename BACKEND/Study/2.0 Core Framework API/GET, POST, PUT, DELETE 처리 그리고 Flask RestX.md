@@ -1,6 +1,7 @@
 # GET, POST, PUT, DELETE 처리 그리고 Flask RestX
 
-RestX 는 Swagger 를 지원한다고 함. (restful 과 차이점 더 알아보면 좋을듯)  
+RestX 는 Swagger 를 지원한다. (restful 과 차이점 더 알아보면 좋을듯)  
+https://flask-restx.readthedocs.io/en/latest/  공식문서.
 
 이 문서에서는 하나의 URL 요청을 처리하는 라우트 함수에서 서로 다른 HTTP Method (GET, POST, PUT, DELETE 등)에 대한 처리를 구현하는 것을 실습함.  
 그리고 이를 편하게 해주는 라이브러리인 Flask restful 혹은 RestX 등의 외부 라이브러리 를 설치하여 사용해본다.  
@@ -34,7 +35,7 @@ app.py , apis/__init__.py, apis/example1.py
 Swagger UI 란 ?  
 프론트엔드 - 백엔드 프로그래머의 효율적인 협업을 위한 API 문서 작성 오픈소스 프레임워크.  
 apis/__init__.py 참고, 서버 구동하고 /api-docs URL에 연결 해둠.  
- 
+
 ![](img/5.jpg)  
 
 <br>  

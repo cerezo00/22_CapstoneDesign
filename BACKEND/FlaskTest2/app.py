@@ -1,9 +1,15 @@
 from flask import Flask, Blueprint
 from apis import api # apis 폴더의 __init__.py 에서 모든 라우터 통합한다.
+from flask_sqlalchemy import SQLAlchemy
+from config import DBINFO # uri 필드에 'http://<host경로>:<port번호>' 추가했음.
 
 app = Flask(__name__)
-blueprint = Blueprint('api', __name__, url_prefix='/api/v1') # 이렇게 하면 현재 서버의 모든 URL의 prefix 가 되겠음.
-app.register_blueprint(blueprint)
+db = SQLAlchemy() # SQLAlchemy 객체 생성
+
+app.config["SQLALCHEMY_DATABASE_URI"] = DBINFO['uri']
+db.init_app(app)
+# 이제부터 db 객체는 모델을 정의하기 위한 db.Model 객체와, 쿼리실행을 제공하기 위한 db.session 객체를 제공할 것이다.
+# 아마, config설정을 변경하여, 한 단계 더 원시적인 SQL추상계층 정도만 사용하는 방법이 있다고 함.
 
 api.init_app(app) 
 
