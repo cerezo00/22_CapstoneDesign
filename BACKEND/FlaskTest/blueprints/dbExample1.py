@@ -8,12 +8,12 @@ blueprint = Blueprint('dbExample1', __name__, url_prefix='/dbExample1/')
 
 @blueprint.route('/store')
 def store():
-  query = "SELECT * FROM `semicolondb`.`store`;"
+  query = "SELECT * FROM `semicolondb`.`store`;" # Raw Query 작성
 
-  results = dbCall(query)
-  print(results)
-  htmlString = ""
-  for r in results:
+  results = dbCall(query) # DB Call
+
+  htmlString = "" # 임의로 String 리턴할것임.
+  for r in results: # 레코드가 둘 이상일 경우를 위해 반복문으로 하나씩 처리
     name = r[1]
     contact = r[2]
     imagePath = r[3]
