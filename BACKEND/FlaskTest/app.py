@@ -34,10 +34,13 @@ def cookieHandle():
   return res
 # 위 URL로 접속하고, 개발자도구(F12)를 열어 Application -> Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
 
-@app.route('/image')
-def please():
-  return send_file('./징징이.jpg')
-  
+# 이미지 서빙 + 동적 라우팅(route paramter) 예제
+@app.route('/image/<string:fileName>') # <> 안의 가변문자열을 fileName 이라는 변수로 받아온다 (argument) 여기서 string: 은 Type Hinting 기능. int, float, path(슬래시허용=하위경로탐색만허용?) 등이 있다고함.
+def imageExample(fileName): # 처리하는 라우트함수에 fileName 을 넘겨준다 (parameter)
+  # .. 이나 / 등을 이용한 파일시스템 접근 취약점은 프레임워크 단에서 잘 처리해주는 듯? + URL Encoding 을 이용한 공격도 안통하는거같음.
+  # 파일존재여부 검사할것.
+  return send_file(f'./image/{fileName}')
+# fileName 에 image폴더 안 사진들의 이름(확장자까지)을 쳐서 접속하면 모두 확인가능.
 
 
 ## Blueprint 예제 시작
@@ -62,4 +65,5 @@ app.register_blueprint(dbExample1.blueprint)
 # 서버 실행 로직
 if __name__=="__main__":
   app.run(host="127.0.0.1", port="8000", debug=True)
-  # 반드시 poetry run python app.py(파일이름) 커맨드로 실행할것.
+  # 반드시 poetry run python -m app (파일이름) 커맨드로 실행할것.
+  # No module named 에러 나와서 vscode 재실행 했더니 해결됨. -> 이게 말이 되나?
