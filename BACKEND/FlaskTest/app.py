@@ -1,3 +1,4 @@
+import http
 from flask import Flask, make_response, request, send_file
 
 #Flask 객체 인스턴스 생성
@@ -59,6 +60,11 @@ from blueprints import dbExample1, dbExample2, dbExample3
 app.register_blueprint(dbExample1.blueprint)
 
 ## DB Control 예제 끝
+
+## 원시적인 방법을 이용한 HTTP Method 처리 예제 시작
+from blueprints import httpMethod1
+app.register_blueprint(httpMethod1.blueprint)
+## 원시적인 방법을 이용한 HTTP Method 처리 예제 끝
 
 
 
