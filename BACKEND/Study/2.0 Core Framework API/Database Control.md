@@ -55,6 +55,10 @@ app.py 에 라우터 등록.
 
 ## **3. DAO와 DTO를 활용한 객체지향 테크닉**  
 
+<br>  
 
+## **4. Flask 의 ORM, SQLAlchemy **  
+
+<br>  
 
 ... 계속
