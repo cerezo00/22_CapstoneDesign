@@ -26,4 +26,9 @@
 
 브라우저에 접속하여 /menu/apple , /menu/pizza , /menu/coffee 등의 URL에 접속하면 결과를 확인 가능.
 
-코드 전문 github backend 브랜치에 업로드. 221007 . 01:37
+코드 전문 github backend 브랜치에 업로드. 221007 . 01:37  
+
+<br>  
+Flask Restx 라이브러리를 이용하면 Blueprint 방식에서 Namespace 방식으로 사용법과 객체, 함수 이름들이 조금씩 달라지며 코드가 좀 더 관리하기 수월하고 깔끔해짐.  
+
+처음부터 그 부분으로 공부해도 괜찮을 듯.
