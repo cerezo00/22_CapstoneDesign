@@ -78,12 +78,24 @@ session : 가장 고수준으로 추상화된 ORM 방식.
 즉, 추후 원시 SQL 쿼리를 사용하고 싶으면 pymysql 대신 engine 방식을 쓰고, 조금 더 편리하지만 ORM 정도로 제한요소가 많은 것이 싫다면 connection 방식, 가장 객체지향적이고 생산성이 높은 방법을 사용하고 싶다면 session 방식을 사용하면 될 듯.  
 위 내용에는 오개념이 다수 포함되어 있을 수 있음. session을 사용하는 방식 또한 구버전 방식, 최신버전 권장 방식 등 다양한 것 같은데 쉽게 파악하기 어려운 듯. 잘 알아보기 바람.  
 그렇다면 바로 session 방식을 사용해보자.  
-
-
+...  
+두서 없이 삽질 기록  
+create_all() 함수는 ORM 파이썬 코드를 실행시켜 DB에 스키마를 CREATE 하는 기능이다. 공식문서에 manually 하게 한번만 실행하라고 나와있음. 우리는 필요 없으니 해당 사항이 필요한 경우 아니면 사용하지말것. + 이미 데이터베이스 상에 스키마가 존재하는 경우, ORM 모델을 변경한다고 해서 create_all()이 실제 DB의 스키마를 바꿔주진 않는다고 함.  
+DB 객체를 어디서 생성하고 어떻게 호출하여 사용해야 하는가 ?  
+https://stackoverflow.com/questions/9692962/flask-sqlalchemy-import-context-issue/9695045#9695045  
+웹 상에 나와있는 SQLAlchemy 관련 자료와 예제들을 보며 그대로 따라하는 것은 사실상 매우 어렵다. 순환 import 와 파이썬 객체의 라이프사이클에 대한 꽤 깊은 이해가 필요하다고 생각함. 웹 상의 대부분 예제들은 그냥 작동하니까 쓰는 듯 함.  
+다음은 SQLAlchemy 객체타입, MySQL 타입, Python 타입 매칭. (TIMESTAMP를 잘 봐둘 것. Python이나 JS는 의도치 않은 묵시적 형변환이 발생해버리면 절대 못 찾음.)  
+![](img/6.jpg)  
+대충 SQLAlchemy 쿼리문 정리.  
+(추후 추가)  
+<br>
+쿼리를 통해 받아온 Object 를 Dict(==Json) 타입으로 변환하는 가장 깔끔하고 객체지향적이고 성능상으로 좋은 방법을 찾아야 함.  (Json 직렬화)  
+https://github.com/sqlalchemy/sqlalchemy 시간 여유가 된다면 SQLAlchemy 의 창시자 zzzeek github 를 뒤져서 최신 권장 방법을 찾아내는것이 좋을수도 있겠음.  
+https://stackoverflow.com/questions/1958219/how-to-convert-sqlalchemy-row-object-to-a-python-dict 여기도 참조.  
 <br>  
 
 ## **4. DAO와 DTO를 활용한 객체지향 테크닉**  
-
+자프링 진영과 구조적이고 개념적인 차이점들이 발생하는 부분.  
+시간을 두고 다양한 상황들을 겪어보며 경험적으로 감을 잡아가야 할 듯.
 <br>  
 
-... 계속

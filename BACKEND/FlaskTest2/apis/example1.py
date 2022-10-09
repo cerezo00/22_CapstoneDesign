@@ -1,4 +1,7 @@
+import json
 from flask_restx import Resource, Namespace
+from model.store import Store # 네이밍에 대한 고민필요
+from flask import jsonify
 
 api = Namespace('/example1', description="네임스페이스 사용 예제") 
 # 첫번째 인자에 들어가는 이름이 swagger에 표시되기때문에 저렇게 써주면 보기 편함.
@@ -28,3 +31,21 @@ class HelloNameSpace(Resource):
 class NumberEchoExample(Resource): 
   def get(self, number):  
     return {"Number": f"{number}"}
+
+@api.route('/stores')
+class Stores(Resource):
+  def get(self):
+    stores = Store.query.all()
+    # resultset 이다.
+    # stores = <Store 1> , <Store 2> , <Store 3>
+
+    # 1. 가장 코드가 간결하지만 성능상으로 최선의 방법인가? -> Python Json 직렬화 에 대하여 검색할것.
+    resp = { "stores" : list() }
+    for s in stores:
+      row =  s.__dict__
+      row.pop('_sa_instance_state', None)
+      resp["stores"].append(row)
+    
+    # 한가지 더 생각해볼것: 이 처리 로직을 여기에 작성하는것이 맞는가 ?
+
+    return resp
