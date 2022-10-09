@@ -1,7 +1,8 @@
 import json
 from flask_restx import Resource, Namespace
+from model import db
 from model.store import Store # 네이밍에 대한 고민필요
-from flask import jsonify
+
 
 api = Namespace('/example1', description="네임스페이스 사용 예제") 
 # 첫번째 인자에 들어가는 이름이 swagger에 표시되기때문에 저렇게 써주면 보기 편함.
@@ -32,7 +33,7 @@ class NumberEchoExample(Resource):
   def get(self, number):  
     return {"Number": f"{number}"}
 
-@api.route('/stores')
+@api.route('/stores') 
 class Stores(Resource):
   def get(self):
     stores = Store.query.all()
@@ -49,3 +50,23 @@ class Stores(Resource):
     # 한가지 더 생각해볼것: 이 처리 로직을 여기에 작성하는것이 맞는가 ?
 
     return resp
+  # 등록 예제. 위험하므로 주석처리해둠.
+  # def post(self):
+  #   newStore = Store(name="BBQ", contact="010-9999-2212")
+  #   db.session.add(newStore)
+  #   db.session.commit()
+  #   return "Added"
+
+  # 수정 예제
+  # def put(self):
+  #   bbq = Store.query.filter_by(name="BBQ").first() # 대소문자 주의할것!
+  #   bbq.contact = "010-3434-2081" # modify 
+  #   db.session.commit()
+  #   return "Updated !"
+
+  # 삭제 예제
+  # def delete(self):
+  #   bbq = Store.query.filter_by(name="BBQ").first()
+  #   db.session.delete(bbq)
+  #   db.session.commit()
+  #   return "Deleted !"

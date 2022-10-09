@@ -64,8 +64,9 @@ Object Relational Mapping 이란, 객체를 이용한 DB Control 기술이다.
 추가적으로 어느정도 SQL Injection 에 대한 보안을 위한 기술들도 지원한다는 듯.  
 <br>  
 SQLAlchemy 는 파이썬 진영의 ORM 라이브러리 이다.  
-그리고 이것을 Flask 친화적으로 지원해주는 라이브러리가 flask-sqlalchemy 인데, 이것을 공부해 볼 것이다.
+그리고 이것을 Flask 친화적으로 지원해주는 라이브러리가 flask-sqlalchemy 인데, 이것을 공부해 볼 것이다.  
 https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/ 공식문서  
+만약 Flask 로 순수 SQLAlchemy 라이브러리만을 연동해서 사용하는 레벨을 공부하고자 한다면 https://flask-docs-kr.readthedocs.io/ko/latest/patterns/sqlalchemy.html 를 참조.  
 poetry add flask-sqlalchemy==2.5.1  로 모듈 설치.(버전 호환성때문에 restx 와 함께 쓰려면 최신버전을 사용할 수 없겠다.)  
 <br>
 대략적으로 SQLAlchemy 가 제공하는 DB Control 에는 3가지 방식을 사용할 수 있는 듯 함.  
