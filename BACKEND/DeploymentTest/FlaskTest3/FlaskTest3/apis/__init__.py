@@ -12,7 +12,7 @@ api = Api(
   contact="", # 제작자 email 등을 명시하는데 사용하라고함.
   license="", # 라이센스 명시
   license_url="", # 라이센스 링크 명시
-  doc="/api-docs", # Swagger 가 나오는 URL.
+  doc="/api/v1/api-docs", # Swagger 가 나오는 URL.
   prefix="/api/v1", # 모든 서버의 url prefix가 됨.
 ) # For RestX. doc=False 를 추가하면 Swagger가 사라짐.(운영환경)
 
