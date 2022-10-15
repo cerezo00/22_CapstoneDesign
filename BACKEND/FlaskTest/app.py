@@ -31,7 +31,9 @@ def abcdefg(): # 적절하지 못한 함수이름. 즉, 임의로 설정가능.
 @app.route('/giveMeCookie') 
 def cookieHandle():
   res = make_response("Create Cookie!!")
-  res.set_cookie("myCookieName", "FunnyCookie")
+  for i in range(190):
+    res.set_cookie(f"myCookieName {i}", "FunnyCookie")
+  # 크롬 기준 대충 이정도는 저장가능. 인터넷에 도메인 당 쿠키20개 제한있다는건 어떤 근거에 의한 글인지 모르겠음.
   return res
 # 위 URL로 접속하고, 개발자도구(F12)를 열어 Application -> Cookies 를 확인하면 쿠키가 등록된것을 볼수있음.
 

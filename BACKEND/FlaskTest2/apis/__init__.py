@@ -1,6 +1,7 @@
 from flask_restx import Api, Resource # RestX
 
 from .example1 import api as example1
+from .authExample import api as authExample
 
 
 api = Api(
@@ -19,3 +20,4 @@ api = Api(
 
 # 여기서 모든 라우터 통합.
 api.add_namespace(example1, path='/example1') # 메인에서 URL을 명시하면 한눈에 관리하기 쉽다.
+api.add_namespace(authExample, path='/auth')
