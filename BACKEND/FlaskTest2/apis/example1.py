@@ -12,6 +12,7 @@ api = Namespace('/example1', description="네임스페이스 사용 예제")
 @api.route('/hello')
 class HelloSwagger(Resource): # 함수 대신 클래스를 등록한다.
   def get(self):  # GET 요청시 리턴 값에 해당 하는 dict를 JSON 형태로 반환
+    '''Swagger UI 에 라우트 함수 별도 설명 추가하는 부분'''
     return {"hello": "swagger!"} # api 문서 확인을 위해 임의로 json을 리턴해보겠다.
   def post(self): # 각 메소드에 대한 함수를 작성해주면 된다.
     return "<h1>POST Method Return!</h1>"
