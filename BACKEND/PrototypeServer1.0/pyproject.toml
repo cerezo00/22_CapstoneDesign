@@ -8,6 +8,12 @@ packages = [{include = "prototypeserver1"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+Flask = "2.1.2"
+flask-restx = "0.5.1"
+flask-sqlalchemy = "2.5.1"
+PyMySQL = "^1.0.2"
+gunicorn = "^20.1.0"
+Werkzeug = "2.1.2"
 
 
 [build-system]
