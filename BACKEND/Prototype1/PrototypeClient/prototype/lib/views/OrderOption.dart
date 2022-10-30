@@ -44,7 +44,7 @@ class _OrderOptionState extends State<OrderOption> {
 
   Widget _menuImage(){
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: ClipRRect(          
         borderRadius: BorderRadius.circular(8.0),
         child: Image.network(
