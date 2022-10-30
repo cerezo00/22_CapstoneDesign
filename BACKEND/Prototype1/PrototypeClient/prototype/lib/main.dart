@@ -7,19 +7,19 @@ import 'dart:html' as html;
 
 void main() {
   storeKey = '1'; // debug mode
-  //storeKey = Uri.base.path.replaceAll('/',''); // production mode
+  //storeKey = Uri.base.path.replaceAll('/','');
 
   runApp(GetMaterialApp(
       title: 'Demo',
       debugShowCheckedModeBanner: false,
 
       initialRoute: '/',
-      routes: {
-        '/': (context) => Home(),
-        '/Order':(context) => Order(),
-        '/Order/Option': (context) => OrderOption(),
-        '/Order/Complete':(context) => OrderComplete(),
-      },
+      getPages: [
+        GetPage(name: '/', page: () => Home()),
+        GetPage(name: '/Order', page: () => Order()),
+        GetPage(name: '/Order/Option', page: () => OrderOption()),
+        GetPage(name: '/Order/Complete', page: () => OrderComplete()),
+      ],
   ));
 }
 
@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
             height: 100,
             child: ElevatedButton(            
               onPressed: () {
-                Navigator.pushNamed(context, "/Order");
+                Get.toNamed("/Order",);
               },
               child: const Text(
                 "주문하기",

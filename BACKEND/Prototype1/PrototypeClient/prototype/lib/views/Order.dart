@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
 
@@ -182,7 +183,7 @@ class _OrderState extends State<Order> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: Get.width * 0.7,
                     child: Text(
                       description,
                       overflow: TextOverflow.ellipsis,
@@ -206,8 +207,7 @@ class _OrderState extends State<Order> {
           ],
         ),
         onTap: () {
-          Navigator.pushNamed(
-            context,
+          Get.toNamed(
             '/Order/Option',
             arguments: {'id': menuId, 'name': menuName},
           );

@@ -3,17 +3,33 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 
-class OrderOption extends StatelessWidget {
+
+class _RxController extends GetxController{
+  RxInt _selectedId = 0.obs;
+  RxInt _totalPrice = 0.obs;
+
+  void changeId(int value){
+    _selectedId.value = value;
+  }
+  void changeTotalPrice(int value){
+    _totalPrice.value = value;
+  }
+}
+
+class OrderOption extends GetView<_RxController>{ 
   late int totalCount = 1;
   late int menuId;
   late String menuName;
 
   @override
   Widget build(BuildContext context) {
-    var parameters = ModalRoute.of(context)!.settings.arguments as Map;
+    Get.put(_RxController()); 
+    // var parameters = ModalRoute.of(context)!.settings.arguments as Map; // Original Way to Getting Flutter Router Arguments
+    var parameters = Get.arguments;
     menuId = parameters['id'];
     menuName = parameters['name'];
     totalCount = 1;
@@ -22,7 +38,7 @@ class OrderOption extends StatelessWidget {
       body: ListView(     
         scrollDirection: Axis.vertical,
         children: [
-          SizedBox(width: MediaQuery.of(context).size.width,), // 넓이 꼼수
+          SizedBox(width: Get.width,), // 넓이 꼼수
           _menuImage(),
           _menuNameText(),
           const Divider(),
@@ -79,7 +95,45 @@ class OrderOption extends StatelessWidget {
       }
     );
   }
-
+  Widget _option(int id, String name, int price){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Obx( () {
+                return RadioListTile(
+                  title: Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,                        
+                    ),
+                  ),        
+                  value: id,
+                  groupValue: controller._selectedId.value,
+                  onChanged: (value) {        
+                    controller.changeId(value!);
+                    controller.changeTotalPrice(price);                 
+                  }, 
+              );
+            }
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+          child: Text(
+            "${price} 원",
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,                        
+            ),
+          ),
+        ),
+      ],
+    );
+  }
   Widget _orderCompleteButton(){
     return BottomAppBar(      
       child: Container(
@@ -87,22 +141,22 @@ class OrderOption extends StatelessWidget {
         height: 60,
         child: ElevatedButton(
           onPressed: () { 
-            // if(totalPrice == 0) return;
-            // Navigator.pushNamed(
-            //   context,
-            //   '/Order/Complete',
-            //   arguments: {'optionMenuId': _selectedId },
-            // );
+            if(controller._totalPrice.value == 0) return;
+            Get.toNamed(
+              '/Order/Complete',
+              arguments: {'optionMenuId': controller._selectedId.value }
+            );
           },
-          child: Text(
-            //"${totalPrice}원 주문하기",
-            "aaaa",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,                        
-            ),
-          ),
+          child: Obx(() {
+            return Text(
+              "${controller._totalPrice.value}원 주문하기",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,                        
+              )
+            );
+          }),
         ),
       ),
     );
@@ -173,7 +227,6 @@ class OrderOption extends StatelessWidget {
             ],
           ),
         )
-
       ],
     );
   }
