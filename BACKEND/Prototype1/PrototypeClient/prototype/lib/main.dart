@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import './constants.dart';
 import './views/_library.dart';
 import 'dart:html' as html;
 
 void main() {
-  //storeKey = '1'; // debug mode
-  storeKey = Uri.base.path.replaceAll('/','');
+  storeKey = '1'; // debug mode
+  //storeKey = Uri.base.path.replaceAll('/',''); // production mode
 
-  runApp(MaterialApp(
+  runApp(GetMaterialApp(
       title: 'Demo',
       debugShowCheckedModeBanner: false,
 

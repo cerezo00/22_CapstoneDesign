@@ -6,14 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 
-class OrderOption extends StatefulWidget {
-  @override
-  State<OrderOption> createState() => _OrderOptionState();
-}
-
-class _OrderOptionState extends State<OrderOption> {
-  late int _selectedId = 0;
-  late int totalPrice = 0;
+class OrderOption extends StatelessWidget {
   late int totalCount = 1;
   late int menuId;
   late String menuName;
@@ -56,6 +49,7 @@ class _OrderOptionState extends State<OrderOption> {
       ),
     );
   }
+
   Widget _menuNameText(){
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -77,20 +71,7 @@ class _OrderOptionState extends State<OrderOption> {
       future: _fetchOptionMenus(menuId),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-            return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding: const EdgeInsets.all(8),
-              itemCount: snapshot.data.length,
-              itemBuilder:  (BuildContext context, int index) {
-                return _option(
-                  snapshot.data[index].id, 
-                  snapshot.data[index].name, 
-                  snapshot.data[index].price
-                );
-              },
-            );
+          return _OptionMenus(optionMenus : snapshot.data);            
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -98,44 +79,7 @@ class _OrderOptionState extends State<OrderOption> {
       }
     );
   }
-  Widget _option(int id, String name, int price){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: RadioListTile(
-            title: Text(
-              name,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,                        
-              ),
-            ),        
-            value: id,
-            groupValue: _selectedId,
-            onChanged: (value) {        
-              setState(() {
-                totalPrice = price;
-                _selectedId = value as int;
-              });                        
-            }, 
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-          child: Text(
-            "${price} 원",
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,                        
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+
   Widget _orderCompleteButton(){
     return BottomAppBar(      
       child: Container(
@@ -143,15 +87,16 @@ class _OrderOptionState extends State<OrderOption> {
         height: 60,
         child: ElevatedButton(
           onPressed: () { 
-            if(totalPrice == 0) return;
-            Navigator.pushNamed(
-              context,
-              '/Order/Complete',
-              arguments: {'optionMenuId': _selectedId },
-            );
+            // if(totalPrice == 0) return;
+            // Navigator.pushNamed(
+            //   context,
+            //   '/Order/Complete',
+            //   arguments: {'optionMenuId': _selectedId },
+            // );
           },
           child: Text(
-            "${totalPrice}원 주문하기",
+            //"${totalPrice}원 주문하기",
+            "aaaa",
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -162,6 +107,7 @@ class _OrderOptionState extends State<OrderOption> {
       ),
     );
   }
+
   Widget _menuCounter(){
     var minusColor = Colors.grey;
     var plusColor = Colors.black;
@@ -251,3 +197,71 @@ class _OptionMenu{
   _OptionMenu({required this.id,required this.name,required this.price});
 }
 
+class _OptionMenus extends StatefulWidget {
+  final List<_OptionMenu> optionMenus;
+  late int _selectedId = 0;
+  late int totalPrice = 0;
+
+  _OptionMenus({super.key, required this.optionMenus});
+
+  @override
+  State<_OptionMenus> createState() => __OptionMenusState();
+}
+
+class __OptionMenusState extends State<_OptionMenus> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      padding: const EdgeInsets.all(8),
+      itemCount: widget.optionMenus.length,
+      itemBuilder:  (BuildContext context, int index) {
+        return _option(
+          widget.optionMenus[index].id, 
+          widget.optionMenus[index].name, 
+          widget.optionMenus[index].price
+        );
+      },
+    );
+  }
+  Widget _option(int id, String name, int price){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: RadioListTile(
+            title: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,                        
+              ),
+            ),        
+            value: id,
+            groupValue: widget._selectedId,
+            onChanged: (value) {        
+              setState(() {
+                widget.totalPrice = price;
+                widget._selectedId = value as int;
+              });                        
+            }, 
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+          child: Text(
+            "${price} 원",
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,                        
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
