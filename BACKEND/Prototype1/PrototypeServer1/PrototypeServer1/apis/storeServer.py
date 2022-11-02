@@ -18,7 +18,7 @@ class name(Resource):
 @api.route('/categories/<int:storeKey>')
 class categories(Resource):  
   def get(self, storeKey):
-    '''매장의 카테고리 목록'''
+    '''Deprecated 매장의 카테고리 목록'''
 
     resultset = db.session.execute(f'''SELECT id, name
                                         FROM foodservice.category
@@ -29,16 +29,16 @@ class categories(Resource):
     resp = { 'categories' : list() }
     for record in resultset:
       resp["categories"].append({
-                            'id': record.id,
-                            'name': record.name
-                          })
+        'id': record.id,
+        'name': record.name
+      })
       
     return resp
 
 @api.route('/menus/<categoryId>')
 class menus(Resource):  
   def get(self, categoryId):
-    '''카테고리에 해당하는 메뉴 목록'''
+    '''Deprecated 카테고리에 해당하는 메뉴 목록'''
 
     resultset = db.session.execute(f'''SELECT id, name, description
                                         FROM foodservice.menu
@@ -100,7 +100,7 @@ class categoriesWithMenus(Resource):
 @api.route('/optionMenus/<menuId>')
 class optionMenus(Resource):  
   def get(self, menuId):
-    '''메뉴에 해당하는 옵션 목록'''
+    '''메뉴에 해당하는 옵션메뉴 목록'''
 
     resultset = db.session.execute(f'''SELECT id, name, price
                                         FROM foodservice.option_menu
@@ -111,10 +111,10 @@ class optionMenus(Resource):
     resp = { 'optionMenus' : list() }
     for record in resultset:
       resp["optionMenus"].append({
-                            'id': record.id,
-                            'name': record.name,
-                            'price': record.price,
-                          })      
+        'id': record.id,
+        'name': record.name,
+        'price': record.price,
+      })      
     return resp
 
 
