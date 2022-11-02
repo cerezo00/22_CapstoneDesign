@@ -2,7 +2,6 @@ from flask import Flask
 from apis import api 
 from model import db
 from config import DBINFO, DBURI, secret_key 
-from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -15,8 +14,7 @@ db.init_app(app)
 
 api.init_app(app) 
 
-CORS(app)
-
 # 서버 실행 로직
+# 프로덕션 환경에서는 0.0.0.0 으로 하고, debug=True는 없애야함
 if __name__=="__main__":
   app.run(host="127.0.0.1", port="8000", debug=True)
