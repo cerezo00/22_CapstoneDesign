@@ -10,8 +10,8 @@ class name(Resource):
   def get(self, storeKey):
     '''매장 이름'''
     result = db.session.query(Store.name).filter_by(id=f"{storeKey}").first()
-    if(result == None):
-      return abort(404)
+    if result == None:
+      return abort(404, "해당하는 매장이 존재하지 않습니다.")
     else:
       return {'name' : result[0] }
 
@@ -55,6 +55,48 @@ class menus(Resource):
                           })      
     return resp
 
+@api.route('/categoriesWithMenus/<int:storeKey>')
+class categoriesWithMenus(Resource):  
+  def get(self, storeKey):
+    '''카테고리와 그에 해당하는 메뉴들 목록'''
+
+    resultset = db.session.execute(f'''SELECT category_id, category_name, menu_id, name, description
+                                        FROM foodservice.menu
+                                        JOIN (SELECT category_id, category_name, menu_id
+                                            FROM foodservice.`category-menu-map`
+                                            JOIN (SELECT id , name as category_name
+                                                FROM foodservice.category
+                                                JOIN (SELECT category_id
+                                                    FROM foodservice.`store-category-map`
+                                                    WHERE store_id = {storeKey}) as v1
+                                                ON id = v1.category_id) as v2
+                                            ON category_id = v2.id) as v3
+                                        ON v3.menu_id = id
+                                        ORDER BY category_id;''')
+    if resultset.rowcount == 0: # Null 에 대한 정확한 예외 처리가 맞는가?
+      return abort(404, "해당 매장의 카테고리와 메뉴가 존재하지 않습니다.")
+    else:
+      resp = { 'categories' : [] }
+      prevId = -1 # category_id 가 -1 이 존재하면 안됨.(정확한 처리가 맞는가?)
+      for record in resultset:
+        if record.category_id != prevId:
+          prevId = record.category_id # category_id 로 정렬되어 있기 때문에 카테고리 id가 변화할때 json 추가
+          resp['categories'].append( # 새로운 카테고리면 추가.
+            {
+              'category_name' : record.category_name,
+              'menus' : []
+            }
+          )
+        resp['categories'][-1]['menus'].append( # 메뉴 json 추가
+          {
+            'menu_id' : record.menu_id,
+            'name' : record.name,
+            'description' : record.description
+          }
+        )
+    return resp
+
+
 @api.route('/optionMenus/<menuId>')
 class optionMenus(Resource):  
   def get(self, menuId):
@@ -74,6 +116,8 @@ class optionMenus(Resource):
                             'price': record.price,
                           })      
     return resp
+
+
 
 # '''SELECT category_name, menu_id, menu_name, description, option_menu.id as option_menu_id, option_menu.name, option_menu.price
 #                                         FROM foodservice.option_menu
