@@ -51,3 +51,12 @@ class OptionMenu(db.Model):
   id: int = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
   name: str = db.Column(db.String(150), nullable=False)
   price: int = db.Column(db.Integer, nullable=False)
+
+class StoreManager(db.Model):
+  __tablename__ = "store_manager"
+  __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+
+  id: int = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+  name: str = db.Column(db.String(36), nullable=False)
+  password: str = db.Column(db.String(400), nullable=False)
+  contact: str = db.Column(db.String(13))

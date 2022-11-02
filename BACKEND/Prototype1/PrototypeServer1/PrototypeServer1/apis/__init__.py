@@ -2,6 +2,7 @@ from flask_restx import Api # RestX
 
 from .imageServer import api as imageServer
 from .storeServer import api as storeServer
+from .adminServer import api as adminServer
 # from .orderQRServer import api as QRServer
 # from .cookieSet import api as cookieSet
 
@@ -22,5 +23,6 @@ api = Api(
 # 여기서 모든 라우터 통합.
 api.add_namespace(imageServer, path='/image') # 메인에서 URL을 명시하면 한눈에 관리하기 쉽다.
 api.add_namespace(storeServer, path='/store')
+api.add_namespace(adminServer, path='/admin')
 # api.add_namespace(QRServer, path='/qr')
 # api.add_namespace(cookieSet, path='/storeKeySet')
