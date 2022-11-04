@@ -68,11 +68,11 @@ class categoriesWithMenus(Resource):
                                                 FROM foodservice.category
                                                 JOIN (SELECT category_id
                                                     FROM foodservice.`store-category-map`
-                                                    WHERE store_id = {storeKey}) as v1
+                                                    WHERE store_id = :storeKey) as v1
                                                 ON id = v1.category_id) as v2
                                             ON category_id = v2.id) as v3
                                         ON v3.menu_id = id
-                                        ORDER BY category_id;''')
+                                        ORDER BY category_id;''', { 'storeKey' : storeKey})
     if resultset.rowcount == 0: # Null 에 대한 정확한 예외 처리가 맞는가?
       return abort(404, "해당 매장의 카테고리와 메뉴가 존재하지 않습니다.")
     else:

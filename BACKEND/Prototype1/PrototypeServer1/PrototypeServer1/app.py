@@ -1,7 +1,9 @@
+from datetime import timedelta
 from flask import Flask
 from apis import api 
 from model import db
 from config import DBINFO, DBURI, secret_key 
+from service.auth import jwt
 
 app = Flask(__name__)
 
@@ -9,6 +11,13 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DBURI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # 뭔지 정확히는 모르겠는데 성능상 안좋고 설정안하면 Warning 뜸
 app.config['JSON_AS_ASCII'] = False # 한글 데이터를 주고받을때 용이.
 app.secret_key = secret_key # 실제 운영시에는 복잡한 문자열로 사용해야함.
+# JWT토큰 생성에 사용될 Secret Key를 flask 환경 변수에 등록
+app.config["JWT_SECRET_KEY"] = secret_key
+app.config["JWT_COOKIE_SECURE"] = False # https 일때 true
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=20) 
+
+jwt.init_app(app)
 
 db.init_app(app)
 
