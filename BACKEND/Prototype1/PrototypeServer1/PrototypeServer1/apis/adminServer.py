@@ -38,7 +38,7 @@ class login(Resource):
                             ;''', { 'name' : name }).fetchone() # SQL INJECTION 방어에 대해 더 깊이 알아볼것.
                             
     if account == None: # 이름이 존재하지 않는 경우
-      return abort(401, "Incorrect User Name or Password")
+      return "Incorrect User Name or Password" ,  401
 
     if check_password_hash(account.password, password): # 로그인 성공
       result = db.execute('''
@@ -50,23 +50,23 @@ class login(Resource):
       # JWT 생성 및 등록절차      
       access_token = create_access_token(identity = store_id) # 현재 어드민 : 가게, 1대1 구조를 가정하여 가게 ID를 토큰에저장.
       
-      response = jsonify( { 'msg' : 'Success' } )
+      response = jsonify( { 'msg' : 'Login Successed' } )
       set_access_cookies(response=response, encoded_access_token=access_token) # 브라우저 쿠키에 jwt 등록
 
       return response # JWT 발급.
     else: # 비밀번호 불일치
-      return abort(401, "Incorrect User Name or Password")
+      return "Incorrect User Name or Password" ,  401
     
 
 # 가게 정보 (가게이름 등) 관리 API도 필요할듯?
 
 ##
-formCategory = api.model('신규 카테고리 등록', strict=True, model={
-    'categoryName': fields.String(title='카테고리 이름', max_length=50 ,default='New Category', required=True),
+formCategory = api.model('카테고리', strict=True, model={
+    'categoryName': fields.String(title='카테고리 이름', max_length=50 ,default='New Category Name', required=True),
 })
 
 @api.route('/category')
-class manageCategory(Resource): 
+class postCategory(Resource): 
   @staticmethod # 모든, "클래스와 무관한 함수"에는 이걸 붙여주는게 좋은듯..?
   @jwt_required()
   @api.expect(formCategory, validate=True)
@@ -77,13 +77,13 @@ class manageCategory(Resource):
     categoryName = request.get_json().get('categoryName')
     db.execute('''
       INSERT INTO foodservice.`category`(name)
-      VALUES (:categoryName);
+      VALUES (:category_name);
 
       INSERT INTO foodservice.`store-category-map`(store_id, category_id)
       VALUES (:sid, ( LAST_INSERT_ID() ));
       ''', 
       {
-        'categoryName' : categoryName,
+        'category_name' : categoryName,
         'sid' : store_id,
       }
     )
@@ -91,10 +91,50 @@ class manageCategory(Resource):
 
     # 다양한 예외 상황에 대한 처리필요.
 
-    return f'''Category Name is {categoryName}'''
-  def patch(self):
-    return 1
+    return f'''{categoryName} 등록되었습니다.''', 201
 ##
+
+@api.route('/category/<int:categoryKey>')
+class patchCategory(Resource): 
+  @staticmethod
+  @jwt_required()
+  @api.expect(formCategory, validate=True)
+  def patch(categoryKey):
+    '''기존 카테고리 이름 변경'''
+    store_id = get_jwt_identity() # get store_manger id
+    category_id = categoryKey
+    categoryName = request.get_json().get('categoryName')
+
+    storeIdCheck = db.execute('''
+                      SELECT store_id
+                      FROM foodservice.`store-category-map`
+                      WHERE category_id = (:input_category_id);
+                    ''',
+                    {
+                      'input_category_id' : category_id      
+                    }
+                    ).fetchone()
+
+    if storeIdCheck == None:
+      return "Not Found", 404 # 존재하지 않는 카테고리를 수정하려고 시도한 경우.
+    if storeIdCheck.store_id != store_id:
+      return "Forbidden" , 403 # 다른 매장의 카테고리를 수정하려고 시도한 경우.
+
+    db.execute('''
+      UPDATE foodservice.`category`
+      SET name = (:category_name)
+      WHERE id = (:category_id);
+      ''', 
+      {
+        'category_name' : categoryName,
+        'category_id' : category_id,
+      }
+    )
+    db.commit()
+
+    # 다양한 예외 상황에 대한 처리필요.
+
+    return f'''{categoryName} (으)로 수정되었습니다.''', 201
 
 # <GET store_id , store_name>
 # SELECT id as store_id, name as store_name

@@ -26,3 +26,8 @@ api.add_namespace(storeServer, path='/store')
 api.add_namespace(adminServer, path='/admin')
 # api.add_namespace(QRServer, path='/qr')
 # api.add_namespace(cookieSet, path='/storeKeySet')
+
+
+
+# http return
+# return {body : bodyContent..} , status code , {header : headerContent..}
