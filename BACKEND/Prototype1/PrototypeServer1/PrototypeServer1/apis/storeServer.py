@@ -9,7 +9,7 @@ api = Namespace('Menu', description="매장 관련 정보")
 class name(Resource):  
   def get(self, storeKey):
     '''매장 이름'''
-    result = db.session.query(Store.name).filter_by(id=f"{storeKey}").first()
+    result = db.query(Store.name).filter_by(id=f"{storeKey}").first()
     if result == None:
       return abort(404, "해당하는 매장이 존재하지 않습니다.")
     else:
@@ -20,7 +20,7 @@ class categories(Resource):
   def get(self, storeKey):
     '''Deprecated 매장의 카테고리 목록'''
 
-    resultset = db.session.execute(f'''SELECT id, name
+    resultset = db.execute(f'''SELECT id, name
                                         FROM foodservice.category
                                         JOIN (SELECT *
                                             FROM foodservice.`store-category-map` as scmap
@@ -40,7 +40,7 @@ class menus(Resource):
   def get(self, categoryId):
     '''Deprecated 카테고리에 해당하는 메뉴 목록'''
 
-    resultset = db.session.execute(f'''SELECT id, name, description
+    resultset = db.execute(f'''SELECT id, name, description
                                         FROM foodservice.menu
                                         JOIN (SELECT menu_id
                                             FROM foodservice.`category-menu-map` as cmmap
@@ -60,7 +60,7 @@ class categoriesWithMenus(Resource):
   def get(self, storeKey):
     '''카테고리와 그에 해당하는 메뉴들 목록'''
 
-    resultset = db.session.execute(f'''SELECT category_id, category_name, menu_id, name, description
+    resultset = db.execute(f'''SELECT category_id, category_name, menu_id, name, description
                                         FROM foodservice.menu
                                         JOIN (SELECT category_id, category_name, menu_id
                                             FROM foodservice.`category-menu-map`
@@ -102,7 +102,7 @@ class optionMenus(Resource):
   def get(self, menuId):
     '''메뉴에 해당하는 옵션메뉴 목록'''
 
-    resultset = db.session.execute(f'''SELECT id, name, price
+    resultset = db.execute(f'''SELECT id, name, price
                                         FROM foodservice.option_menu
                                         JOIN (SELECT option_menu_id as omid
                                             FROM foodservice.`menu-option_menu-map`
@@ -159,20 +159,20 @@ class optionMenus(Resource):
   # 등록 예제. 위험하므로 주석처리해둠.
   # def post(self):
   #   newStore = Store(name="BBQ", contact="010-9999-2212")
-  #   db.session.add(newStore)
-  #   db.session.commit()
+  #   db.add(newStore)
+  #   db.commit()
   #   return "Added"
 
   # 수정 예제
   # def put(self):
   #   bbq = Store.query.filter_by(name="BBQ").first() # 대소문자 주의할것!
   #   bbq.contact = "010-3434-2081" # modify 
-  #   db.session.commit()
+  #   db.commit()
   #   return "Updated !"
 
   # 삭제 예제
   # def delete(self):
   #   bbq = Store.query.filter_by(name="BBQ").first()
-  #   db.session.delete(bbq)
-  #   db.session.commit()
+  #   db.delete(bbq)
+  #   db.commit()
   #   return "Deleted !"
