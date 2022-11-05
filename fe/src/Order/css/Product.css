@@ -1,0 +1,35 @@
+.product {
+    display: flex;
+    width: 90%;
+    margin: 25px auto;
+    align-items: center;
+}
+
+.product-img {
+    height: 90px;
+    width: 90px;
+    border-radius: 50px;
+    margin-right: 15px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.product-tag {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 600;
+}
