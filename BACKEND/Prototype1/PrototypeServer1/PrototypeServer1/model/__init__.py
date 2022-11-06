@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from config import DBINFO, DBURI, secret_key 
 
-engine = create_engine(DBURI, connect_args={"client_flag": MULTI_STATEMENTS})
+engine = create_engine(DBURI, connect_args={"client_flag": MULTI_STATEMENTS}) # multiple queries at once
 db = scoped_session(sessionmaker(autocommit=False,
                                   autoflush=False,
                                   bind=engine))
