@@ -1,10 +1,13 @@
 import React from "react";
+// import { useState } from "react";
 // import { useCallback } from "react";
+
+const storeName = 'StarBucks';
 
 const orderButtons = [
     {
         id: 1,
-        name: "태그 주문 >",
+        name: "재료로 주문 >",
     },
     {
         id: 2,
@@ -17,6 +20,10 @@ const orderButtons = [
 ];
 
 const styles = {
+    storeName: {
+        fontSize: '2rem',
+        fontWeight: 'bold',
+    },
     buttonContainer: {
         width: '90%',
         height: '7vh',
@@ -50,18 +57,21 @@ const styles = {
 }
 
 function OrderButton() {
-
     // 버튼 클릭 시 해당 페이지로 이동
-    const handleClick = () => {
-        /**
-        if(e.target.key === 1) {
+    const handleClick = (event) => {
+        if(event.target.value === "1") {
             window.location.href=""
-        } else if(e.target.kye === 2) {
+        } else if(event.target.value === "2") {
             window.location.href=""
-        } else {
-            window.location.href=""
+        } else if(event.target.value === "3") {
+            event.preventDefault();
+            navigator.share({
+                title: document.title,
+                text: 'Capstone', // 수정필요 (공유는 https 환경에서만 가능, 로컬 http는 불가능)
+                url: 'https://capston',  // 수정필요 (공유는 https 환경에서만 가능, 로컬 http는 불가능)
+              });
         }
-           */
+        
     };
 
     // 버튼이 포커스되면 색깔 변경
@@ -80,7 +90,8 @@ function OrderButton() {
     const listButton = orderButtons.map((orderButton) =>
     <button type="button" 
             key={orderButton.id} 
-            onClick={handleClick} 
+            onClick={handleClick}
+            value={orderButton.id}
             style={styles.buttonContainer}
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
@@ -91,7 +102,10 @@ function OrderButton() {
 
     return (
         <div style={styles.div}>
-            <p style={styles.welcomText}><span style={{fontSize:'130%'}}>어서오세요!</span><br/>주문 방식을 선택해주세요</p>
+            <p style={styles.welcomText}>
+                <span style={styles.storeName}>{storeName}<br/></span>
+                <span style={{fontSize:'130%'}}>어서오세요!</span><br/>
+                주문 방식을 선택해주세요</p>
             <div style={styles.divContainer}>{listButton}</div>
         </div>
     );

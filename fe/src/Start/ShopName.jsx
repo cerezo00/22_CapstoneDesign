@@ -2,24 +2,24 @@ import React from 'react';
 // import styled from 'styled-components';
 import logo from './img/starbucks_logo.webp';
 // import logo from './img/star.png';
-// import logo from './img/EDIYA_COFFEE.jpg';
 
 // const image = require('./img/EDIYA_COFFEE.jpg');
 
 const styles = {
     imgStyle: {
         // width: '40%',
-        display: 'block',
+        // display: 'block',
         width: '100%',
         objectFit: 'scale-down',
-        // maxWidth: 'device-width',
+        verticalAlign: 'top',
     },
     div: {
         display: 'flex',
-        Width: '100%',
-        height: '37vh',
+        width: '100%',
+        // height: '37vh',
+        height: 'auto',
         justifyContent: 'center',
-        overflow: 'hidden',
+        overflowY: 'hidden',
         
     },
 };
