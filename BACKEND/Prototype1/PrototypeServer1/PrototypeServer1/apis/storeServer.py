@@ -1,4 +1,5 @@
-from flask_restx import Resource, Namespace, abort
+from flask_restx import Resource, Namespace, abort, fields, reqparse
+from flask import request
 from model import db
 from model.models import *
 
@@ -18,7 +19,7 @@ class name(Resource):
 @api.route('/categories/<int:storeKey>')
 class categories(Resource):  
   def get(self, storeKey):
-    '''Deprecated 매장의 카테고리 목록'''
+    '''매장의 카테고리 목록'''
 
     resultset = db.execute(f'''SELECT id, name
                                         FROM foodservice.category
@@ -35,10 +36,10 @@ class categories(Resource):
       
     return resp
 
-@api.route('/menus/<categoryId>')
+@api.route('/menus/<int:categoryId>')
 class menus(Resource):  
   def get(self, categoryId):
-    '''Deprecated 카테고리에 해당하는 메뉴 목록'''
+    '''카테고리에 해당하는 메뉴 목록'''
 
     resultset = db.execute(f'''SELECT id, name, description
                                         FROM foodservice.menu
@@ -47,6 +48,40 @@ class menus(Resource):
                                             WHERE cmmap.category_id = {categoryId}) as v1
                                         ON id = v1.menu_id;''')
     resp = { 'menus' : list() }
+    for record in resultset:
+      resp["menus"].append({
+                            'id': record.id,
+                            'name': record.name,
+                            'description': record.description,
+                          })      
+    return resp
+  
+
+formTags = reqparse.RequestParser()
+formTags.add_argument("tagIDs", type=int, action="split", location='args') # url parameter : location='args'
+@api.route('/menus')
+class menusByTags(Resource):  
+  @api.expect(formTags)
+  def get(self):    
+    '''태그에 해당하는 메뉴 조회'''
+    tagIDs = formTags.parse_args()["tagIDs"]
+
+    if not tagIDs:
+      sql = '''SELECT * FROM foodservice.menu;'''
+
+    else:
+      sql = '''(SELECT DISTINCT menu_id 
+              FROM foodservice.`menu-tag-map` WHERE '''
+
+      for tid in tagIDs:  # 쿼리 이렇게 가면 SQL Injection 에 취약할지도 모름.
+        sql += f'''tag_id = {tid} or '''
+      sql = '''SELECT id, name, description
+          FROM foodservice.menu
+          JOIN ''' + sql[:-4] + ') v1 ON v1.menu_id = id;'
+
+    resultset = db.execute(sql)
+    print(sql)
+    resp = { 'menus' : list() } # JSON 직렬화코드 Model 클래스 메소드로 옮겨도 될듯. -> "경험을해보고 겹치는걸 봐야, 개선이 가능하다"
     for record in resultset:
       resp["menus"].append({
                             'id': record.id,
@@ -96,7 +131,6 @@ class categoriesWithMenus(Resource):
         )
     return resp
 
-
 @api.route('/optionMenus/<menuId>')
 class optionMenus(Resource):  
   def get(self, menuId):
@@ -116,6 +150,28 @@ class optionMenus(Resource):
         'price': record.price,
       })      
     return resp
+
+@api.route('/tags/<int:storeKey>')
+class tags(Resource):  
+  def get(self, storeKey):
+    '''매장의 모든 태그 목록 조회'''
+
+    resultset = db.execute('''SELECT id, name
+                                FROM foodservice.tag
+                                JOIN (SELECT tag_id
+                                    FROM foodservice.`store-tag-map`
+                                    WHERE store_id = :storeKey) as v1
+                                ON v1.tag_id = id
+                                ;''', {'storeKey' : storeKey})
+    resp = { 'tags' : list() }
+    for record in resultset:
+      resp["tags"].append({
+        'id': record.id,
+        'name': record.name,
+      })      
+    return resp
+
+
 
 
 
