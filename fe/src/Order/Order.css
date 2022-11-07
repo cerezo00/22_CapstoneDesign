@@ -1,0 +1,20 @@
+.order-category{
+    display: flex;
+    flex-direction: column;
+}
+
+.order-category-item {
+    height: 60px;
+    border: none;
+    color: black;
+    font-weight: 600;
+    font-size: 16px;
+    background-color: inherit;
+    text-align: left;
+}
+
+.order-category-item--active {
+    background-color: #0c6234;
+    color: white;
+}
+
