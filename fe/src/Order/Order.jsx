@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import Option from './components/Option';
-import Product from './components/Product';
+import Header from '../components/Header';
 import './Order.css';
-import arrow from './img/arrow-left.png';
 
 const data = [
   {
@@ -54,9 +52,6 @@ const data = [
 ];
 
 const Order = function () {
-  const [isOptionOpen, setOptionOpen] = useState(false);
-  const [beverage, setBeverage] = useState([]);
-  const [curCategory, setCurCategory] = useState('에스프레소');
   const [catArr, setArr] = useState(
     data.map((elem, index) => {
       const category = {
@@ -68,23 +63,12 @@ const Order = function () {
     })
   );
 
-  useEffect(() => {
-    data.some((elem) => {
-      if (elem.category_name === curCategory) {
-        setBeverage(elem.menus);
-        return true;
-      }
-      return false;
-    });
-  }, [curCategory]);
-
   const onClick = (id) => {
     setArr(
       catArr.map((item) => {
         const elem = item;
         if (elem.id === id) {
           elem.active = true;
-          setCurCategory(elem.name);
         } else {
           elem.active = false;
         }
@@ -94,51 +78,23 @@ const Order = function () {
   };
 
   return (
-    <div className={isOptionOpen ? 'order-option' : 'order'}>
-      <div
-        className={
-          isOptionOpen ? 'order-background__black' : 'order-background'
-        }
-      >
-        <div className="order-header">
-          <button type="button" className="order-header-back">
-            <img alt="back" src={arrow} className="order-header-img" />
+    <div className="order">
+      <Header />
+      <div className="order-category">
+        {catArr.map((elem) => (
+          <button
+            key={elem.id}
+            type="button"
+            className={
+              elem.active
+                ? 'order-category-item order-category-item--active'
+                : 'order-category-item'
+            }
+            onClick={() => onClick(elem.id)}
+          >
+            {elem.name}
           </button>
-          <span className="order-header-text">주문</span>
-        </div>
-        <div className="order-category">
-          {catArr.map((elem) => (
-            <button
-              key={elem.id}
-              type="button"
-              className={
-                elem.active
-                  ? 'order-category-item order-category-item--active'
-                  : 'order-category-item'
-              }
-              onClick={() => onClick(elem.id)}
-            >
-              {elem.name}
-            </button>
-          ))}
-        </div>
-        <div>
-          {beverage.map((item) => (
-            <Product
-              key={item.menu_id}
-              name={item.name}
-              tag={item.tag}
-              price={item.price}
-              img={item.img}
-              onClick={() => setOptionOpen(true)}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="order-option">
-        {isOptionOpen && (
-          <Option isOpen={isOptionOpen} onClose={() => setOptionOpen(false)} />
-        )}
+        ))}
       </div>
     </div>
   );

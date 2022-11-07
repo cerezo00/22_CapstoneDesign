@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Product from './components/Product';
 import Option from './components/Option';
+import './css/Menus.css';
 
 const data = [
   {
@@ -35,19 +36,25 @@ const Menus = function () {
     setBeverage(data);
   });
   return (
-    <div className="menus">
-      <Header />
-      <div>
-        {beverage.map((item) => (
-          <Product
-            key={item.menu_id}
-            name={item.name}
-            tag={item.tag}
-            price={item.price}
-            img={item.img}
-            onClick={() => setOptionOpen(true)}
-          />
-        ))}
+    <div className={isOptionOpen ? 'menus-option' : 'menus'}>
+      <div
+        className={
+          isOptionOpen ? 'menus-background__black' : 'menus-background'
+        }
+      >
+        <Header />
+        <div>
+          {beverage.map((item) => (
+            <Product
+              key={item.menu_id}
+              name={item.name}
+              tag={item.tag}
+              price={item.price}
+              img={item.img}
+              onClick={() => setOptionOpen(true)}
+            />
+          ))}
+        </div>
       </div>
       <div className="order-option">
         {isOptionOpen && (
