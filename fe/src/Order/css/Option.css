@@ -91,7 +91,7 @@
 .option-btn-qr {
     border: none;
     border-radius: 25px;
-    background-color: #A81111;
+    background-color: #0c6234;
     width: 47%;
     height: 50px;
     color: white;
@@ -100,7 +100,7 @@
 }
 
 .option-btn-cart {
-    border: 1px solid #A81111;
+    border: 1px solid #0c6234;
     border-radius: 25px;
     background-color: white;
     width: 47%;
