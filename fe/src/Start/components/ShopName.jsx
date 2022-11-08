@@ -1,6 +1,6 @@
 import React from 'react';
 // import styled from 'styled-components';
-import logo from './img/starbucks_logo.webp';
+import logo from '../img/starbucks_logo.webp';
 // import logo from './img/star.png';
 // import logo from './img/다운로드.jpg';
 

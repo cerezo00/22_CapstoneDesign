@@ -1,7 +1,7 @@
 import React from "react";
 import {MobileView, BrowserView} from 'react-device-detect';
-import OrderButton from "./OrderButton";
-import ShopName from "./ShopName";
+import OrderButton from "./components/OrderButton";
+import ShopName from "./components/ShopName";
 
 function Start() {
     return (
