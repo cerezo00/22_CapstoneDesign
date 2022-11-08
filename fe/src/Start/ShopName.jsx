@@ -2,13 +2,10 @@ import React from 'react';
 // import styled from 'styled-components';
 import logo from './img/starbucks_logo.webp';
 // import logo from './img/star.png';
-
-// const image = require('./img/EDIYA_COFFEE.jpg');
+// import logo from './img/다운로드.jpg';
 
 const styles = {
     imgStyle: {
-        // width: '40%',
-        // display: 'block',
         width: '100%',
         objectFit: 'scale-down',
         verticalAlign: 'top',
@@ -16,8 +13,7 @@ const styles = {
     div: {
         display: 'flex',
         width: '100%',
-        // height: '37vh',
-        height: 'auto',
+        maxHeight: '32vh',
         justifyContent: 'center',
         overflowY: 'hidden',
         

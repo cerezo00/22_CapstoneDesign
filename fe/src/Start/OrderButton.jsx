@@ -32,9 +32,8 @@ const styles = {
         backgroundColor: 'white',
         fontSize: '130%',
         borderRadius: '50px',
-        verticalAlign: 'top',
+        verticalAlign: 'bottom',
         borderColor: '#0c6234',
-        fontFamliy: 'Verdana',
         fontWeight: 'bold',
         borderWidth: '0.1rem',
         
@@ -53,6 +52,8 @@ const styles = {
     div: {
         width: '100%',
         height: '100%',
+        position: 'relative',
+        top: '1vh',
     }
 }
 
