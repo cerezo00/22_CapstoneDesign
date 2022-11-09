@@ -23,6 +23,7 @@ app.config["JWT_COOKIE_SECURE"] = False # https 일때 true
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30) 
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False # CSRF Token 의 필요성, CSRF 공격 구현 경험, 보호 기법 작동원리에 대한 정확한 이해, 갖춰지지않은 경우 즉, 제대로 모르면 쓸 자격도 없다.
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000 # 파일 최대 업로드 크기 16MB 제한.
 
 jwt.init_app(app)
 

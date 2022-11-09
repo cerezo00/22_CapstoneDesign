@@ -1,4 +1,5 @@
 from flask_restx import Resource, Namespace, abort, fields
+from werkzeug.datastructures import FileStorage
 from flask import request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
@@ -135,6 +136,38 @@ class patchCategory(Resource):
     # 다양한 예외 상황에 대한 처리필요.
 
     return f'''{categoryName} (으)로 수정되었습니다.''', 201
+
+formMenu = api.model('메뉴', strict=True, model={
+  'menuName': fields.String(title='메뉴 이름', max_length=50 ,default='New Menu Name', required=True),
+  'menuDescription': fields.String(title='메뉴 설명', max_length=100 ,default='New Menu Description', required=True),
+})
+formMenu = api.parser()
+formMenu.add_argument('menuName', location='form', type=str, required=True)
+formMenu.add_argument('menuDescription', location='form', type=str, required=True)
+formMenu.add_argument('menuImage', location='files', type=FileStorage, required=True)
+@api.route('/menu/<int:categoryKey>')
+class postMenu(Resource): 
+  @staticmethod
+  @jwt_required()
+  @api.expect(formMenu)
+  def post(categoryKey):
+    '''신규 메뉴 등록 (사진 필수)'''
+    store_id = get_jwt_identity() # get store_manger id
+    category_id = categoryKey
+
+    args = formMenu.parse_args()
+    menuName = args['menuName']
+    menuDescription = args['menuDescription']
+    menuImage = args['menuImage']
+    fileType = menuImage.content_type
+
+    if fileType != 'image/jpg' and fileType != 'image/jpeg': # 잘못된 파일 업로드 처리
+      return "Only JPG, JPEG file can be uploaded" , 403
+    
+    # 업로드 파일 최대크기 제한은 app.py 에 설정되어있음.
+
+    return 1
+
 
 # <GET store_id , store_name>
 # SELECT id as store_id, name as store_name
