@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import {CookiesProvider} from 'react-cookie';
 import App from './App';
-// import ShopName from './Start/ShopName';
-// import OrderButton from './Start/OrderButton';
-// import Start from './Start/Start';
+// import QrBox from './QR/QrBox';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </React.StrictMode>
 );
