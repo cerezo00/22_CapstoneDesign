@@ -1,0 +1,73 @@
+.top {
+    width: 100%;
+    height: 4.5vh;
+    background-color: #0c6234;
+    };
+
+.message {
+    font-size: 110%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+    top: 5vh;
+    line-height: 2rem;
+    };
+
+.code {
+    font-weight: bold;
+    font-size: 110%;
+    };
+
+.divContainer {
+    width: 100%;
+    };
+.qr {
+    margin-top: 2vh;
+    };
+.span {
+    display: inline-block;
+    width: 100%;
+    font-weight: bold;
+    };
+
+.share {
+    font-size: 250%;
+    position: absolute;
+    top: 60%;
+    color: lightgrey;
+    }
+
+.buttonContainer {
+    width: 100%;
+    height: 8vh;
+    text-align: center;
+    margin: auto;
+    background-color: white;
+    font-size: 140%;
+    border-radius: 15px;
+    border-color: #0c6234;
+    font-weight: bold;
+    };
+
+.buttonDiv {
+    font-size: 110%;
+    position: fixed;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+    margin: auto auto;
+    width: 90%;
+    };
+
+.save {
+    position: relative;
+    width: 60%;
+    margin: 0;
+    padding: 0;
+    };
+
+.back {
+    font-size: 10vw;
+    height: 90%;
+    color: white;
+};
