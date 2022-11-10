@@ -1,3 +1,4 @@
+import os
 from flask_restx import Resource, Namespace, abort, fields
 from werkzeug.datastructures import FileStorage
 from flask import request, session, jsonify
@@ -8,6 +9,10 @@ from service.auth import *
 
 
 api = Namespace('AdminServer', description="사업자 매장 메뉴 관리 서버") 
+
+base_path = "./static/" # . 은 프로젝트 루트경로.
+# 파일 저장을 위한 경로 지정.
+# 원래는 config.py 에 로컬용, production용 경로를 따로 저장하고 사용해야 맞다.
 
 
 formLogin = api.model('로그인 요청', strict=True, model={
@@ -76,6 +81,7 @@ class postCategory(Resource):
     store_id = get_jwt_identity() # get store_manger id
 
     categoryName = request.get_json().get('categoryName')
+
     db.execute('''
       INSERT INTO foodservice.`category`(name)
       VALUES (:category_name);
@@ -106,6 +112,7 @@ class patchCategory(Resource):
     category_id = categoryKey
     categoryName = request.get_json().get('categoryName')
 
+    ## 중복되는 서비스 로직 모듈화 할것.
     storeIdCheck = db.execute('''
                       SELECT store_id
                       FROM foodservice.`store-category-map`
@@ -120,6 +127,7 @@ class patchCategory(Resource):
       return "Not Found", 404 # 존재하지 않는 카테고리를 수정하려고 시도한 경우.
     if storeIdCheck.store_id != store_id:
       return "Forbidden" , 403 # 다른 매장의 카테고리를 수정하려고 시도한 경우.
+    ##
 
     db.execute('''
       UPDATE foodservice.`category`
@@ -151,7 +159,7 @@ class postMenu(Resource):
   @jwt_required()
   @api.expect(formMenu)
   def post(categoryKey):
-    '''신규 메뉴 등록 (사진 필수)'''
+    '''신규 메뉴 등록 (사진 필수, JPG 포맷만 가능)'''
     store_id = get_jwt_identity() # get store_manger id
     category_id = categoryKey
 
@@ -166,7 +174,56 @@ class postMenu(Resource):
     
     # 업로드 파일 최대크기 제한은 app.py 에 설정되어있음.
 
-    return 1
+    ## 중복되는 서비스 로직 모듈화 할것.
+    storeIdCheck = db.execute('''
+                      SELECT store_id
+                      FROM foodservice.`store-category-map`
+                      WHERE category_id = (:input_category_id);
+                    ''',
+                    {
+                      'input_category_id' : category_id      
+                    }
+                    ).fetchone()
+
+    if storeIdCheck == None:
+      return "Not Found", 404 # 존재하지 않는 카테고리에 메뉴를 등록하려고 시도한 경우.
+    if storeIdCheck.store_id != store_id:
+      return "Forbidden" , 403 # 다른 매장의 카테고리를 수정하려고 시도한 경우.
+    ## 
+
+    try:
+      menu_id = db.execute('''
+        INSERT INTO foodservice.`menu`(name, description)
+        VALUES (:menu_name, :menu_description);                                            
+        ''', 
+        {
+          'menu_name' : menuName,
+          'menu_description' : menuDescription,
+        }
+      ).lastrowid
+
+      db.execute('''
+        INSERT INTO foodservice.`category-menu-map`(category_id, menu_id)
+        VALUES (:cid, :mid);
+        ''', 
+        {
+          'cid' : category_id,
+          'mid' : menu_id,
+        }
+      )
+    except:
+      return "DB Error", 500
+
+    try:
+      # filename = secure_filename(file.filename)  # secure_filname: 유저에게 입력받은 이름을 그대로 사용할때, File Upload 취약점 방지
+      save_path = base_path + f"{store_id}/"
+      os.makedirs(save_path, exist_ok=True)  #존재하지않는 경로의 폴더 자동생성 허용
+      menuImage.save(os.path.join(save_path, f"{menu_id}.jpg") ) # 파일경로 주의해서 볼것.
+    except:
+      return "File Upload Error", 500
+
+    db.commit()
+    return f"{menuName} 등록 완료", 201
 
 
 # <GET store_id , store_name>
