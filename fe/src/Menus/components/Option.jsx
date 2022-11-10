@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -16,9 +18,27 @@ const data = [
   },
 ];
 
-const Option = function ({ onClose }) {
+const Option = function ({ item, onClose }) {
   const [radio, setRadio] = useState('ICE');
+  const onClickCart = () => {
+    let arr = JSON.parse(localStorage.getItem('shoppingCart'));
 
+    if (arr === null) {
+      arr = [];
+    }
+
+    arr.push(item);
+
+    const newArray = arr.reduce((acc, current) => {
+      if (acc.findIndex(({ menu_id }) => menu_id === current.menu_id) === -1) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+
+    localStorage.setItem('shoppingCart', JSON.stringify(newArray));
+    onClose();
+  };
   const onChange = (e) => {
     setRadio(e.target.value);
   };
@@ -58,7 +78,7 @@ const Option = function ({ onClose }) {
         </div>
       </div>
       <div className="option-btn">
-        <button type="button" className="option-btn-cart">
+        <button type="button" className="option-btn-cart" onClick={onClickCart}>
           장바구니 담기
         </button>
         <button type="button" className="option-btn-qr">
@@ -70,6 +90,7 @@ const Option = function ({ onClose }) {
 };
 
 Option.propTypes = {
+  item: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

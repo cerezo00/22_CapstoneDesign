@@ -72,6 +72,18 @@
     margin-bottom: 10px;
 }
 
+[type='radio'] {
+    appearance: none;
+    border: 2px solid gray;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+[type='radio']:checked {
+    border: 7px solid #0c6234;
+}
+
 .option-price-text {
     display: flex;
     width: 90%;

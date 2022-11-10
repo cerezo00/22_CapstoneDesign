@@ -10,31 +10,40 @@ const data = [
     menu_id: 1,
     name: '아메리카노',
     tag: '#샷 #물',
-    price: '4,500원',
+    price: 4500,
+    quantity: 1,
     img: 'americano',
   },
   {
     menu_id: 2,
     name: '카페 라떼',
     tag: '#샷 #우유',
-    price: '5,000원',
+    price: 5000,
+    quantity: 1,
     img: 'caffelatte',
   },
   {
     menu_id: 3,
     name: '돌체라떼',
     tag: '#샷 #무지방 우유 #돌체 시럽',
-    price: '5,500원',
+    price: 5500,
+    quantity: 1,
     img: 'dolcelatte',
   },
 ];
 
 const Menus = function () {
   const [isOptionOpen, setOptionOpen] = useState(false);
+  const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
   useEffect(() => {
     setBeverage(data);
   });
+
+  const setOption = (e) => {
+    setClickedItem(e);
+    setOptionOpen(true);
+  };
   return (
     <div className={isOptionOpen ? 'menus-option' : 'menus'}>
       <div
@@ -42,23 +51,16 @@ const Menus = function () {
           isOptionOpen ? 'menus-background__black' : 'menus-background'
         }
       >
-        <Header />
+        <Header text="에스프레소" />
         <div>
           {beverage.map((item) => (
-            <Product
-              key={item.menu_id}
-              name={item.name}
-              tag={item.tag}
-              price={item.price}
-              img={item.img}
-              onClick={() => setOptionOpen(true)}
-            />
+            <Product item={item} onClick={() => setOption(item)} />
           ))}
         </div>
       </div>
       <div className="order-option">
         {isOptionOpen && (
-          <Option isOpen={isOptionOpen} onClose={() => setOptionOpen(false)} />
+          <Option item={clickedItem} onClose={() => setOptionOpen(false)} />
         )}
       </div>
     </div>
