@@ -57,7 +57,8 @@ class menus(Resource):
     return resp
   
 
-formTags = reqparse.RequestParser()
+#formTags = reqparse.RequestParser()
+formTags = api.parser()
 formTags.add_argument("tagIDs", type=int, action="split", location='args') # url parameter : location='args'
 @api.route('/menus')
 class menusByTags(Resource):  

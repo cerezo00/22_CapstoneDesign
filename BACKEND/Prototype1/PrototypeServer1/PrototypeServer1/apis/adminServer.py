@@ -67,19 +67,23 @@ class login(Resource):
 # 가게 정보 (가게이름 등) 관리 API도 필요할듯?
 
 ##
-formCategory = api.model('카테고리', strict=True, model={
-    'categoryName': fields.String(title='카테고리 이름', max_length=50 ,default='New Category Name', required=True),
-})
+
 @api.route('/category')
-class postCategory(Resource): 
-  @staticmethod # 모든, "클래스와 무관한 함수"에는 이걸 붙여주는게 좋은듯..?
+class Category(Resource): 
+  def get(self):
+    '''매장의 카테고리 조회 Under development'''
+    return 0
+
+  formPostCategory = api.parser()
+  formPostCategory.add_argument('categoryName', location='json', type=str, required=True)
   @jwt_required()
-  @api.expect(formCategory, validate=True)
-  def post(): # staticmethod 의 경우 self가 필요없음. -> 성능상 이점이 있는지 찾아볼것
+  @api.expect(formPostCategory)
+  def post(self):
     '''신규 카테고리 등록'''
     store_id = get_jwt_identity() # get store_manger id
 
-    categoryName = request.get_json().get('categoryName')
+    args = Category.formPostCategory.parse_args()
+    categoryName = args['categoryName']
 
     db.execute('''
       INSERT INTO foodservice.`category`(name)
@@ -98,18 +102,19 @@ class postCategory(Resource):
     # 다양한 예외 상황에 대한 처리필요.
 
     return f'''{categoryName} 등록되었습니다.''', 201
-##
 
-@api.route('/category/<int:categoryKey>')
-class patchCategory(Resource): 
-  @staticmethod
+  formPatchCategory = api.parser()
+  formPatchCategory.add_argument('categoryKey', location='json', type=int, required=True)
+  formPatchCategory.add_argument('categoryName', location='json', type=str, required=True)
   @jwt_required()
-  @api.expect(formCategory, validate=True)
-  def patch(categoryKey):
+  @api.expect(formPatchCategory)
+  def patch(self):
     '''기존 카테고리 이름 변경'''
     store_id = get_jwt_identity() # get store_manger id
-    category_id = categoryKey
-    categoryName = request.get_json().get('categoryName')
+
+    args = Category.formPatchCategory.parse_args()
+    category_id = args['categoryKey']
+    categoryName = args['categoryName']
 
     ## 중복되는 서비스 로직 모듈화 할것.
     storeIdCheck = db.execute('''
@@ -144,25 +149,38 @@ class patchCategory(Resource):
 
     return f'''{categoryName} (으)로 수정되었습니다.''', 201
 
-# 메뉴 이미지 등이 필수로 입력되지 않는 경우들에 대한 처리도 해야함.
-@api.route('/menu/<int:categoryKey>')
-class postMenu(Resource): 
-  formMenu = api.parser()
-  formMenu.add_argument('menuName', location='form', type=str, required=True)
-  formMenu.add_argument('menuDescription', location='form', type=str, required=True)
-  formMenu.add_argument('menuImage', location='files', type=FileStorage, required=True)
   @jwt_required()
-  @api.expect(formMenu)
+  def delete(self):
+    '''카테고리 삭제 Under Development'''
+    return 0
+##
+  
+
+# 메뉴 이미지 등이 필수로 입력되지 않는 경우들에 대한 처리도 해야함.
+@api.route('/menu')
+class Menu(Resource): 
+  @jwt_required()
+  def get():
+    '''매장의 메뉴 조회 Under Development'''
+    return 0
+
+  formPostMenu = api.parser()
+  formPostMenu.add_argument('categoryKey', location='form', type=int, required=True)
+  formPostMenu.add_argument('menuName', location='form', type=str, required=True)
+  formPostMenu.add_argument('menuDescription', location='form', type=str, required=True)
+  formPostMenu.add_argument('menuImage', location='files', type=FileStorage, required=True)
+  @jwt_required()
+  @api.expect(formPostMenu)
   @api.doc(responses={201: '등록 완료'})
   @api.doc(responses={403: 'Forbidden'})
   @api.doc(responses={404: 'Not found'})
   @api.doc(responses={500: 'DB Error, File Upload Error'})
-  def post(categoryKey):
+  def post(self):
     '''신규 메뉴 등록 (사진 필수, JPG 포맷만 가능)'''
     store_id = get_jwt_identity() # get store_manger id
-    category_id = categoryKey
-
-    args = postMenu.formMenu.parse_args()
+    
+    args = Menu.formPostMenu.parse_args()
+    category_id = args['categoryKey']
     menuName = args['menuName']
     menuDescription = args['menuDescription']
     menuImage = args['menuImage']
@@ -224,20 +242,19 @@ class postMenu(Resource):
     db.commit()
     return f"{menuName} 등록 완료", 201
 
-@api.route('/menu/<int:menuKey>')
-class patchMenu(Resource): 
   formPatchMenu = api.parser()
+  formPatchMenu.add_argument('menuKey', location='form', type=int, required=True)
   formPatchMenu.add_argument('menuName', location='form', type=str, required=True)
   formPatchMenu.add_argument('menuDescription', location='form', type=str, required=True)
   formPatchMenu.add_argument('menuImage', location='files', type=FileStorage)
   @jwt_required()
   @api.expect(formPatchMenu)
-  def patch(self, menuKey):
+  def patch(self):
     '''기존 메뉴 정보 수정'''
     store_id = get_jwt_identity() # get store_manger id
     
-    args = patchMenu.formPatchMenu.parse_args()
-    menuID = menuKey
+    args = Menu.formPatchMenu.parse_args()
+    menuID = args['menuKey']
     menuName = args['menuName']
     menuDescription = args['menuDescription']
     menuImage = args['menuImage']
@@ -309,4 +326,150 @@ class patchMenu(Resource):
     db.commit()
     return f"{menuName} 수정 완료", 201
 
+  @jwt_required()
+  def delete(self):
+    '''메뉴 삭제 Under Development'''
+    return 0
 
+
+@api.route('/tag')
+class Tag(Resource): 
+  @jwt_required()
+  def get(self):
+    '''매장의 태그 조회 Under Development'''
+    return 0
+
+  formPostTag = api.parser()
+  formPostTag.add_argument('tagName', location='json', type=str, required=True)
+  @jwt_required()
+  @api.expect(formPostTag)
+  def post(self):
+    '''매장에 신규 태그 추가'''
+    store_id = get_jwt_identity() # get store_manger id
+    
+    args = Tag.formPostMenu.parse_args()
+    tagName = args['tagName']
+
+    try:
+      db.execute('''
+        INSERT INTO foodservice.`tag`(name)
+        VALUES (:tag_name);   
+
+        INSERT INTO foodservice.`store-tag-map`
+        VALUES store_id = :storeID, tag_id = LAST_INSERT_ID() ;
+        ''', 
+        {
+          'tag_name' : tagName,
+          'storeID' : store_id,
+        }
+      )
+    except:
+      return "DB Error", 500
+
+    db.commit()
+    return f"{tagName} 등록 완료", 201
+
+
+  @jwt_required()
+  def patch(self):
+    '''기존 태그 이름 수정 Under Development'''
+    return 0
+
+  @jwt_required()
+  def delete(self):
+    '''태그 삭제 Under Development'''
+    return 0
+
+@api.route('/tagging')
+class Tagging(Resource): 
+
+  formPostTagging = api.parser()
+  formPostTagging.add_argument('menuID', location='json', type=int, required=True)
+  formPostTagging.add_argument('tagID',  location='json', type=int, required=True) # 여러개의 태그를 한번에 입력받아 처리하는 기능도 필요.
+  @jwt_required()
+  @api.expect(formPostTagging)
+  def post(self):
+    '''기존 메뉴에 태그를 새로 연결'''
+    store_id = get_jwt_identity() # get store_manger id
+
+    args = Tagging.formPostTagging.parse_args()
+    menuID = args['menuID']
+    tagID = args['tagID']
+
+    ## 중복되는 서비스 로직 모듈화 할것.
+    try:
+      menuCheck = db.execute('''
+        SELECT store_id
+        FROM foodservice.`store-category-map`
+        JOIN (SELECT category_id as cid
+            FROM foodservice.`category-menu-map`
+            WHERE menu_id = :menuID) as v1
+        ON v1.cid = category_id
+        ;
+      ''',
+      {
+        'menuID' : menuID      
+      }
+      ).fetchone()
+    except:
+      return "DB Error", 500 # 아마도 존재하지 않는 메뉴ID 이거나..
+
+    if menuCheck == None:
+      return "Not Found", 404 # 존재하지 않는 매장의 태그 조작 시도.
+    if menuCheck.store_id != store_id:
+      return "Forbidden" , 403 # 다른 매장의 정보를 수정하려고 시도.
+
+    tagCheck = db.execute('''
+      SELECT store_id
+      FROM foodservice.`store-tag-map`
+      WHERE tag_id = (:tagID);
+    ''',
+    {
+      'tagID' : tagID      
+    }
+    ).fetchone()
+
+    if tagCheck == None:
+      return "Not Found", 404 # 존재하지 않는 매장의 태그 조작 시도.
+    if tagCheck.store_id != store_id:
+      return "Forbidden" , 403 # 다른 매장의 정보를 수정하려고 시도.
+    ## 
+
+    try:
+      db.execute('''
+        INSERT INTO foodservice.`menu-tag-map`(menu_id, tag_id)
+        VALUES (:menuID, :tagID);                                            
+        ''', 
+        {
+          'menuID' : menuID,
+          'tagID'  : tagID,
+        }
+      )
+    except:
+      return "DB Error", 500
+
+    db.commit()
+    return f"태그 연결 완료", 201
+
+  @jwt_required()
+  def delete(self):
+    '''기존 메뉴에 연결된 태그를 삭제(연결해제) Under Development'''
+    return 0
+
+@api.route('/optionMenu')
+class OptionMenu(Resource): 
+  def get(self):
+    '''해당 메뉴의 옵션 메뉴 조회 Under Development'''
+    return 0
+  
+  def post(self):
+    '''메뉴에 신규 옵션 메뉴 추가 Under Development'''
+    return 0
+
+  def patch(self):
+    '''기존 옵션 메뉴 정보 수정 Under Development'''
+    return 0
+  
+  def delete(self):
+    '''옵션 메뉴 삭제 Under Development'''
+    return 0
