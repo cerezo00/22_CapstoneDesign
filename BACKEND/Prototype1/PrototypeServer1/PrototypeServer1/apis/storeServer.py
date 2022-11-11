@@ -14,7 +14,7 @@ class name(Resource):
     if result == None:
       return abort(404, "해당하는 매장이 존재하지 않습니다.")
     else:
-      return {'name' : result[0] }
+      return {'name' : result.name }
 
 @api.route('/categories/<int:storeKey>')
 class categories(Resource):  

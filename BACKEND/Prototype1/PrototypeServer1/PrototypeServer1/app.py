@@ -21,7 +21,7 @@ app.secret_key = secret_key # 실제 운영시에는 복잡한 문자열로 사�
 app.config["JWT_SECRET_KEY"] = secret_key
 app.config["JWT_COOKIE_SECURE"] = False # https 일때 true
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30) 
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=60) 
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False # CSRF Token 의 필요성, CSRF 공격 구현 경험, 보호 기법 작동원리에 대한 정확한 이해, 갖춰지지않은 경우 즉, 제대로 모르면 쓸 자격도 없다.
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000 # 파일 최대 업로드 크기 16MB 제한.
 
@@ -38,3 +38,4 @@ def shutdown_session(exception=None):
 if __name__=="__main__":
   app.run(host="127.0.0.1", port="8000", debug=True)
   #app.run(host="0.0.0.0", port="8000") # for production
+  # 여기서 IP는 수정안해도 배포할때 gunicorn 으로 잘되는듯? debug모드는 해제해야함.

@@ -70,7 +70,6 @@ class login(Resource):
 formCategory = api.model('카테고리', strict=True, model={
     'categoryName': fields.String(title='카테고리 이름', max_length=50 ,default='New Category Name', required=True),
 })
-
 @api.route('/category')
 class postCategory(Resource): 
   @staticmethod # 모든, "클래스와 무관한 함수"에는 이걸 붙여주는게 좋은듯..?
@@ -145,25 +144,25 @@ class patchCategory(Resource):
 
     return f'''{categoryName} (으)로 수정되었습니다.''', 201
 
-formMenu = api.model('메뉴', strict=True, model={
-  'menuName': fields.String(title='메뉴 이름', max_length=50 ,default='New Menu Name', required=True),
-  'menuDescription': fields.String(title='메뉴 설명', max_length=100 ,default='New Menu Description', required=True),
-})
-formMenu = api.parser()
-formMenu.add_argument('menuName', location='form', type=str, required=True)
-formMenu.add_argument('menuDescription', location='form', type=str, required=True)
-formMenu.add_argument('menuImage', location='files', type=FileStorage, required=True)
+# 메뉴 이미지 등이 필수로 입력되지 않는 경우들에 대한 처리도 해야함.
 @api.route('/menu/<int:categoryKey>')
 class postMenu(Resource): 
-  @staticmethod
+  formMenu = api.parser()
+  formMenu.add_argument('menuName', location='form', type=str, required=True)
+  formMenu.add_argument('menuDescription', location='form', type=str, required=True)
+  formMenu.add_argument('menuImage', location='files', type=FileStorage, required=True)
   @jwt_required()
   @api.expect(formMenu)
+  @api.doc(responses={201: '등록 완료'})
+  @api.doc(responses={403: 'Forbidden'})
+  @api.doc(responses={404: 'Not found'})
+  @api.doc(responses={500: 'DB Error, File Upload Error'})
   def post(categoryKey):
     '''신규 메뉴 등록 (사진 필수, JPG 포맷만 가능)'''
     store_id = get_jwt_identity() # get store_manger id
     category_id = categoryKey
 
-    args = formMenu.parse_args()
+    args = postMenu.formMenu.parse_args()
     menuName = args['menuName']
     menuDescription = args['menuDescription']
     menuImage = args['menuImage']
@@ -186,7 +185,7 @@ class postMenu(Resource):
                     ).fetchone()
 
     if storeIdCheck == None:
-      return "Not Found", 404 # 존재하지 않는 카테고리에 메뉴를 등록하려고 시도한 경우.
+      return "Not Found", 404 # 존재하지 않는 매장의 카테고리에 메뉴를 등록하려고 시도한 경우.
     if storeIdCheck.store_id != store_id:
       return "Forbidden" , 403 # 다른 매장의 카테고리를 수정하려고 시도한 경우.
     ## 
@@ -225,12 +224,89 @@ class postMenu(Resource):
     db.commit()
     return f"{menuName} 등록 완료", 201
 
+@api.route('/menu/<int:menuKey>')
+class patchMenu(Resource): 
+  formPatchMenu = api.parser()
+  formPatchMenu.add_argument('menuName', location='form', type=str, required=True)
+  formPatchMenu.add_argument('menuDescription', location='form', type=str, required=True)
+  formPatchMenu.add_argument('menuImage', location='files', type=FileStorage)
+  @jwt_required()
+  @api.expect(formPatchMenu)
+  def patch(self, menuKey):
+    '''기존 메뉴 정보 수정'''
+    store_id = get_jwt_identity() # get store_manger id
+    
+    args = patchMenu.formPatchMenu.parse_args()
+    menuID = menuKey
+    menuName = args['menuName']
+    menuDescription = args['menuDescription']
+    menuImage = args['menuImage']
 
-# <GET store_id , store_name>
-# SELECT id as store_id, name as store_name
-# FROM foodservice.store
-# JOIN (SELECT store_manager_id
-# 		FROM foodservice.`store-store_manager-map`
-# 		WHERE store_id = 1) as v1
-# ON id = v1.store_manager_id		
-# ;
+    if menuImage != None:
+      fileType = menuImage.content_type
+      if fileType != 'image/jpg' and fileType != 'image/jpeg': # 잘못된 파일 업로드 처리
+        return "Only JPG, JPEG file can be uploaded" , 403
+    
+    # 업로드 파일 최대크기 제한은 app.py 에 설정되어있음.
+
+    ## 권한 검사
+    categoryIdCheck = db.execute('''
+      SELECT category_id
+      FROM foodservice.`category-menu-map`
+      WHERE menu_id = :menuID
+      ;
+    ''',
+    {
+      'menuID' : menuID      
+    }
+    ).fetchone()
+
+    if categoryIdCheck == None:
+      return "Not Found", 404 # 존재하지 않는 카테고리의 메뉴를 수정하려고 시도한 경우.
+    
+    categoryID = categoryIdCheck.category_id
+    storeIdCheck = db.execute('''
+      SELECT store_id
+      FROM foodservice.`store-category-map`
+      WHERE category_id = :categoryID
+      ;
+    ''',
+    {
+      'categoryID' : categoryID    
+    }
+    ).fetchone()
+    
+    if storeIdCheck == None:
+      return "Not Found", 404 # 존재하지 않는 매장
+    if storeIdCheck.store_id != store_id:
+      return "Forbidden" , 403 # 다른 매장의 카테고리를 수정하려고 시도한 경우.
+    ## 권한 검사 끝
+
+
+    try:
+      db.execute('''
+        UPDATE foodservice.`menu`
+        SET name = :menu_name, description = :menu_description
+        WHERE id = :menuID                                       
+        ''', 
+        {
+          'menuID' : menuID,
+          'menu_name' : menuName,
+          'menu_description' : menuDescription,
+        }
+      )
+    except:
+      return "DB Error", 500
+
+    if menuImage != None:
+      try:
+        save_path = base_path + f"{store_id}/"
+        os.makedirs(save_path, exist_ok=True)  #존재하지않는 경로의 폴더 자동생성 허용
+        menuImage.save(os.path.join(save_path, f"{menuID}.jpg") ) # 파일경로 주의해서 볼것.
+      except:
+        return "File Upload Error", 500
+
+    db.commit()
+    return f"{menuName} 수정 완료", 201
+
+
