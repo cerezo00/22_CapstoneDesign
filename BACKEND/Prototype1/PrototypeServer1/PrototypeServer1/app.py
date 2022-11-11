@@ -1,16 +1,16 @@
-from datetime import timedelta
 from flask import Flask
 
-from apis import api 
+from datetime import timedelta
+from prototypeserver1.apis import api 
 
 from pymysql.constants import CLIENT
-from model import db
-from config import secret_key 
+from prototypeserver1.model import db
+from prototypeserver1.config import secret_key 
 
-from service.auth import jwt
+from prototypeserver1.service.auth import jwt
 
+  
 app = Flask(__name__)
-
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # 뭔지 정확히는 모르겠는데 성능상 안좋고 설정안하면 Warning 뜸
 # 이 설정이 flask-sqlalchemy 용이라면 제거할 필요있음.
@@ -39,3 +39,7 @@ if __name__=="__main__":
   app.run(host="127.0.0.1", port="8000", debug=True)
   #app.run(host="0.0.0.0", port="8000") # for production
   # 여기서 IP는 수정안해도 배포할때 gunicorn 으로 잘되는듯? debug모드는 해제해야함.
+
+# 배포전 변경작업:
+# app.py : host ip, debug=True 제거
+# config.py : db ip , password
