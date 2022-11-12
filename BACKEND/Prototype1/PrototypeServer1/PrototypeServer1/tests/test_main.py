@@ -3,13 +3,16 @@ import pytest
 
 @pytest.fixture(scope='session') # 테스트 실행시 한번만 실행
 def create_app():
+  from prototypeserver1.config import SET_DBURI
+  SET_DBURI('TESTING')
   from datetime import timedelta
   from flask import Flask
   from prototypeserver1.apis import api 
-  from prototypeserver1.config import secret_key 
+  from prototypeserver1.config import secret_key
   from prototypeserver1.service.auth import jwt
-
+  
   app = Flask(__name__)
+  app.config['TESTING'] = True
   app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # 뭔지 정확히는 모르겠는데 성능상 안좋고 설정안하면 Warning 뜸
   # 이 설정이 flask-sqlalchemy 용이라면 제거할 필요있음.
   app.config['JSON_AS_ASCII'] = False # 한글 데이터를 주고받을때 용이.

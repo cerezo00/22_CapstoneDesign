@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-from prototypeserver1.config import DBINFO, DBURI, secret_key 
+from serverapp.config import DBINFO, DBURI, secret_key 
 
 
 engine = create_engine(DBURI, connect_args={"client_flag": MULTI_STATEMENTS}) # multiple queries at once

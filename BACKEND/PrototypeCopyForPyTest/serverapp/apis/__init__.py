@@ -1,8 +1,8 @@
 from flask_restx import Api # RestX
 
-from .imageServer import api as imageServer
-from .storeServer import api as storeServer
-from .adminServer import api as adminServer
+from serverapp.apis.imageServer import api as imageServer
+from serverapp.apis.storeServer import api as storeServer
+from serverapp.apis.adminServer import api as adminServer
 # from .orderQRServer import api as QRServer
 # from .cookieSet import api as cookieSet
 

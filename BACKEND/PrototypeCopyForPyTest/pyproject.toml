@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "prototypeserver1"
+name = "prototypecopyforpytest"
 version = "0.1.0"
 description = ""
 authors = ["greennarae <smk5647@gmail.com>"]

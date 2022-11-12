@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace, abort, fields, reqparse
 from flask import request
-from prototypeserver1.model import db
-from prototypeserver1.model.models import *
+from serverapp.model import db
+from serverapp.model.models import *
 
 
 api = Namespace('Menu', description="매장 관련 정보") 
@@ -11,7 +11,6 @@ class name(Resource):
   def get(self, storeKey):
     '''매장 이름'''
     result = db.query(Store.name).filter_by(id=f"{storeKey}").first()
-
     if result == None:
       return abort(404, "해당하는 매장이 존재하지 않습니다.")
     else:

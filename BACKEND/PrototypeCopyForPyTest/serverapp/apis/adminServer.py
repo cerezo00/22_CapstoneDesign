@@ -4,9 +4,9 @@ from werkzeug.datastructures import FileStorage
 from flask import request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
-from prototypeserver1.model import db
-from prototypeserver1.service.auth import *
-from prototypeserver1.config import STORAGE_PATH
+from serverapp.model import db
+from serverapp.service.auth import *
+from serverapp.config import STORAGE_PATH
 
 
 api = Namespace('AdminServer', description="사업자 매장 메뉴 관리 서버") 

@@ -1,15 +1,17 @@
 from flask import Flask
 
 from datetime import timedelta
-from prototypeserver1.apis import api 
+
+from serverapp.apis import api 
 
 from pymysql.constants import CLIENT
-from prototypeserver1.model import db
-from prototypeserver1.config import secret_key 
+from serverapp.model import db
+from serverapp.config import secret_key 
 
-from prototypeserver1.service.auth import jwt
+from serverapp.service.auth import jwt
 
 def create_app():
+  
   app = Flask(__name__)
 
   app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # 뭔지 정확히는 모르겠는데 성능상 안좋고 설정안하면 Warning 뜸
@@ -31,10 +33,8 @@ def create_app():
 
   @app.teardown_request
   def shutdown_session(exception=None):
+    print("db tear down debug")
     db.remove() # 어플리케이션의 모든 엔드포인트 요청이 끝날때마다 DB세션 종료
 
   return app
 
-# 배포전 변경작업:
-# app.py : host ip, debug=True 제거
-# config.py : db ip , password

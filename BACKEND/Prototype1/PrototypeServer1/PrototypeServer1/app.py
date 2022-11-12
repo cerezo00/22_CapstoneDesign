@@ -9,7 +9,6 @@ from prototypeserver1.config import secret_key
 
 from prototypeserver1.service.auth import jwt
 
-  
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # 뭔지 정확히는 모르겠는데 성능상 안좋고 설정안하면 Warning 뜸
