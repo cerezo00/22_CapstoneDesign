@@ -52,7 +52,7 @@ const Menus = function () {
         }
       >
         <Header text="에스프레소" />
-        <div>
+        <div className="menus-list">
           {beverage.map((item) => (
             <Product item={item} onClick={() => setOption(item)} />
           ))}
