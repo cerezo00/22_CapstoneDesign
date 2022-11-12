@@ -5,6 +5,7 @@
 }
 
 .cart-middle {
+    margin-top: 50px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -24,14 +25,25 @@
     border-top: 2px solid rgba(198, 198, 198, 0.474);
 }
 
-.cart-total-price {
-    display: block;
-    width: 90%;
-    margin: 0px auto;
+.cart-total {
     text-align: end;
     font-size: 20px;
+    display: block;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.cart-total-text {
+    color: rgb(93, 93, 93);
+    font-weight: 500;
+}
+
+.cart-total-price {
     font-weight: 600;
 }
+
 
 .cart-order {
     margin: 15px auto 0px auto;
