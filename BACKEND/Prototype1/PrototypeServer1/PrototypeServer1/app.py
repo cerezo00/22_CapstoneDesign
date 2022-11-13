@@ -35,7 +35,7 @@ def shutdown_session(exception=None):
 # 서버 실행 로직
 # 프로덕션 환경에서는 0.0.0.0 으로 하고, debug=True는 없애야함
 if __name__=="__main__":
-  app.run(host="127.0.0.1", port="8000", debug=True)
+  app.run(host="127.0.0.1", port=8000, debug=True)
   #app.run(host="0.0.0.0", port="8000") # for production
   # 여기서 IP는 수정안해도 배포할때 gunicorn 으로 잘되는듯? debug모드는 해제해야함.
 

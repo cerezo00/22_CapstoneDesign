@@ -14,16 +14,13 @@ api = Namespace('AdminServer', description="사업자 매장 메뉴 관리 서�
 base_path = STORAGE_PATH
 # 파일 저장을 위한 경로 지정.
 
-
-formLogin = api.model('로그인 요청', strict=True, model={
-    'name'    : fields.String(title='이름', max_length=36, default='Store Manager Name', required=True),
-    'password': fields.String(title='비밀번호', max_length=400, default='PASSWORD', required=True),
-})
 @api.route('/login')
-class login(Resource):
-  @staticmethod
+class Login(Resource):
+  formLogin = api.parser()
+  formLogin.add_argument('name', location='json', type=str, required=True)
+  formLogin.add_argument('password', location='json', type=str, required=True)
   @api.expect(formLogin, validate=True)
-  def post(): 
+  def post(self): 
     '''로그인 요청''' 
 
     # # 로그인 시도 횟수 제한 처리 <보류>
@@ -36,8 +33,11 @@ class login(Resource):
     # session['attempt'] = attempt
     # ... 세션 타임아웃 등 설정필요(영구세션이 아닌경우, 브라우저 닫으면 초기화), 더 고민필요.
 
-    name = request.get_json().get('name') # request.form.get('') 가 안먹힘. html form body 와 application/json 의 차이???
-    password = request.get_json().get('password')
+    args = Login.formLogin.parse_args()
+    name = args['name']
+    password = args['password']
+    print(name)
+
     account = db.execute('''SELECT id, name, password
                             FROM foodservice.store_manager
                             WHERE name = :name
@@ -347,7 +347,7 @@ class Tag(Resource):
     '''매장에 신규 태그 추가'''
     store_id = get_jwt_identity() # get store_manger id
     
-    args = Tag.formPostMenu.parse_args()
+    args = Tag.formPostTag.parse_args()
     tagName = args['tagName']
 
     try:

@@ -13,7 +13,7 @@ class name(Resource):
     result = db.query(Store.name).filter_by(id=f"{storeKey}").first()
 
     if result == None:
-      return abort(404, "해당하는 매장이 존재하지 않습니다.")
+      return "해당하는 매장이 존재하지 않습니다.", 404
     else:
       return {'name' : result.name }, 200
 
@@ -111,7 +111,7 @@ class categoriesWithMenus(Resource):
                                         ON v3.menu_id = id
                                         ORDER BY category_id;''', { 'storeKey' : storeKey})
     if resultset.rowcount == 0: # Null 에 대한 정확한 예외 처리가 맞는가?
-      return abort(404, "해당 매장의 카테고리와 메뉴가 존재하지 않습니다.")
+      return "해당 매장의 카테고리와 메뉴가 존재하지 않습니다.", 404
     else:
       resp = { 'categories' : [] }
       prevId = -1 # category_id 가 -1 이 존재하면 안됨.(정확한 처리가 맞는가?)

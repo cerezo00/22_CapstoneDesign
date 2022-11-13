@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture(scope='session') # 테스트 실행시 한번만 실행
 def create_app():
   from prototypeserver1.config import SET_DBURI
-  SET_DBURI('TESTING')
+  SET_DBURI('TESTING') # 테스트용 DB로 전환 ! 매우중요.
   from datetime import timedelta
   from flask import Flask
   from prototypeserver1.apis import api 
@@ -28,7 +28,7 @@ def create_app():
   api.init_app(app) 
 
   if __name__=="__main__":
-    app.run(host="127.0.0.1", port="8000", debug=True)
+    app.run(host="127.0.0.1", port=8000, debug=True)
   return app
 
 @pytest.fixture # 매 테스트 실행 마다 실행
