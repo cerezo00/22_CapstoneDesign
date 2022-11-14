@@ -36,7 +36,6 @@ class Login(Resource):
     args = Login.formLogin.parse_args()
     name = args['name']
     password = args['password']
-    print(name)
 
     account = db.execute('''SELECT id, name, password
                             FROM foodservice.store_manager
@@ -66,7 +65,6 @@ class Login(Resource):
 
 # 가게 정보 (가게이름 등) 관리 API도 필요할듯?
 
-##
 
 @api.route('/category')
 class Category(Resource): 
@@ -118,14 +116,14 @@ class Category(Resource):
 
     ## 중복되는 서비스 로직 모듈화 할것.
     storeIdCheck = db.execute('''
-                      SELECT store_id
-                      FROM foodservice.`store-category-map`
-                      WHERE category_id = (:input_category_id);
-                    ''',
-                    {
-                      'input_category_id' : category_id      
-                    }
-                    ).fetchone()
+      SELECT store_id
+      FROM foodservice.`store-category-map`
+      WHERE category_id = (:input_category_id);
+    ''',
+    {
+      'input_category_id' : category_id      
+    }
+    ).fetchone()
 
     if storeIdCheck == None:
       return "Not Found", 404 # 존재하지 않는 카테고리를 수정하려고 시도한 경우.
@@ -211,8 +209,8 @@ class Menu(Resource):
     try:
       menu_id = db.execute('''
         INSERT INTO foodservice.`menu`(name, description)
-        VALUES (:menu_name, :menu_description);                                            
-        ''', 
+        VALUES (:menu_name, :menu_description);                                     
+        ''',
         {
           'menu_name' : menuName,
           'menu_description' : menuDescription,
@@ -222,7 +220,7 @@ class Menu(Resource):
       db.execute('''
         INSERT INTO foodservice.`category-menu-map`(category_id, menu_id)
         VALUES (:cid, :mid);
-        ''', 
+        ''',
         {
           'cid' : category_id,
           'mid' : menu_id,
@@ -469,7 +467,7 @@ class OptionMenu(Resource):
   def patch(self):
     '''기존 옵션 메뉴 정보 수정 Under Development'''
     return 0
-  
+
   def delete(self):
     '''옵션 메뉴 삭제 Under Development'''
     return 0

@@ -6,7 +6,7 @@ class Store(Base):
   __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
   id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-  nam = Column(String(150), nullable=False)
+  name = Column(String(150), nullable=False)
   contact = Column(String(13))
 
 class StoreCategoryMap(Base):

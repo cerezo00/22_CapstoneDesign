@@ -17,17 +17,21 @@ class name(Resource):
     else:
       return {'name' : result.name }, 200
 
-@api.route('/categories/<int:storeKey>')
+@api.route('/categories/<storeKey>')
 class categories(Resource):  
   def get(self, storeKey):
     '''매장의 카테고리 목록'''
 
-    resultset = db.execute(f'''SELECT id, name
-                                        FROM foodservice.category
-                                        JOIN (SELECT *
-                                            FROM foodservice.`store-category-map` as scmap
-                                            WHERE scmap.store_id = {storeKey}) as v1
-                                        ON v1.category_id = id;''')
+    resultset = db.execute(
+      f'''SELECT id, name
+        FROM foodservice.category
+        JOIN (SELECT *
+            FROM foodservice.`store-category-map` as scmap
+            WHERE scmap.store_id = :storeKey) as v1
+        ON v1.category_id = id;'''
+        ,
+        {'storeKey' : storeKey}
+    )
     resp = { 'categories' : list() }
     for record in resultset:
       resp["categories"].append({
@@ -42,12 +46,13 @@ class menus(Resource):
   def get(self, categoryId):
     '''카테고리에 해당하는 메뉴 목록'''
 
-    resultset = db.execute(f'''SELECT id, name, description
-                                        FROM foodservice.menu
-                                        JOIN (SELECT menu_id
-                                            FROM foodservice.`category-menu-map` as cmmap
-                                            WHERE cmmap.category_id = {categoryId}) as v1
-                                        ON id = v1.menu_id;''')
+    resultset = db.execute(f'''
+      SELECT id, name, description
+      FROM foodservice.menu
+      JOIN (SELECT menu_id
+          FROM foodservice.`category-menu-map` as cmmap
+          WHERE cmmap.category_id = {categoryId}) as v1
+      ON id = v1.menu_id;''')
     resp = { 'menus' : list() }
     for record in resultset:
       resp["menus"].append({
@@ -57,8 +62,6 @@ class menus(Resource):
                           })      
     return resp
   
-
-#formTags = reqparse.RequestParser()
 formTags = api.parser()
 formTags.add_argument("tagIDs", type=int, action="split", location='args') # url parameter : location='args'
 @api.route('/menus')
@@ -97,19 +100,22 @@ class categoriesWithMenus(Resource):
   def get(self, storeKey):
     '''카테고리와 그에 해당하는 메뉴들 목록'''
 
-    resultset = db.execute(f'''SELECT category_id, category_name, menu_id, name, description
-                                        FROM foodservice.menu
-                                        JOIN (SELECT category_id, category_name, menu_id
-                                            FROM foodservice.`category-menu-map`
-                                            JOIN (SELECT id , name as category_name
-                                                FROM foodservice.category
-                                                JOIN (SELECT category_id
-                                                    FROM foodservice.`store-category-map`
-                                                    WHERE store_id = :storeKey) as v1
-                                                ON id = v1.category_id) as v2
-                                            ON category_id = v2.id) as v3
-                                        ON v3.menu_id = id
-                                        ORDER BY category_id;''', { 'storeKey' : storeKey})
+    resultset = db.execute(f'''
+      SELECT category_id, category_name, menu_id, name, description
+      FROM foodservice.menu
+      JOIN (SELECT category_id, category_name, menu_id
+          FROM foodservice.`category-menu-map`
+          JOIN (SELECT id , name as category_name
+              FROM foodservice.category
+              JOIN (SELECT category_id
+                  FROM foodservice.`store-category-map`
+                  WHERE store_id = :storeKey) as v1
+              ON id = v1.category_id) as v2
+          ON category_id = v2.id) as v3
+      ON v3.menu_id = id
+      ORDER BY category_id;''', 
+      { 'storeKey' : storeKey}
+    )
     if resultset.rowcount == 0: # Null 에 대한 정확한 예외 처리가 맞는가?
       return "해당 매장의 카테고리와 메뉴가 존재하지 않습니다.", 404
     else:

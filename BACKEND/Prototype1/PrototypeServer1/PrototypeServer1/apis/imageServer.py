@@ -13,4 +13,4 @@ class ImageServer(Resource):
     if os.path.exists(fileName):
       return send_file(fileName)
     else:
-      return abort(404, "해당하는 이미지가 존재하지 않습니다.")
+      return "해당하는 이미지가 존재하지 않습니다.", 404
