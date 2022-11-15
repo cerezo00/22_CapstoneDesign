@@ -51,9 +51,9 @@ const CartItem = function ({ item, onClick, onChangeQuantity }) {
               +
             </button>
           </div>
-          <span className="cart-item-price">{`${(option.price * quantity)
-            .toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
+          <span className="cart-item-price">{`${(
+            option.price * quantity
+          ).toLocaleString()}원`}</span>
         </div>
       </div>
     </div>

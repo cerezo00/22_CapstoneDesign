@@ -19,9 +19,7 @@ const Product = function ({ item, onClick }) {
       <div className="product-info">
         <span className="product-name">{name}</span>
         <span className="product-tag">{tag}</span>
-        <span className="product-price">{`${price
-          .toString()
-          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
+        <span className="product-price">{`${price.toLocaleString()}원`}</span>
       </div>
     </div>
   );

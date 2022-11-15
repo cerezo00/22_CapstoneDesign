@@ -16,7 +16,7 @@ const data = [
   {
     id: 2,
     option: 'HOT',
-    price: 4500,
+    price: 5000,
   },
 ];
 
@@ -87,9 +87,7 @@ const Option = function ({ item, onClose }) {
                 />
                 <div className="option-price-text">
                   <span>{e.option}</span>
-                  <span>{`${e.price
-                    .toString()
-                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
+                  <span>{`${e.price.toLocaleString()}원`}</span>
                 </div>
               </label>
             ))}
