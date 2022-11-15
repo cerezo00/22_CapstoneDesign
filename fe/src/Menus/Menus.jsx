@@ -36,9 +36,10 @@ const Menus = function () {
   const [isOptionOpen, setOptionOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
+
   useEffect(() => {
     setBeverage(data);
-  });
+  }, []);
 
   const setOption = (e) => {
     setClickedItem(e);
@@ -54,7 +55,11 @@ const Menus = function () {
         <Header text="에스프레소" />
         <div className="menus-list">
           {beverage.map((item) => (
-            <Product item={item} onClick={() => setOption(item)} />
+            <Product
+              key={item.menu_id}
+              item={item}
+              onClick={() => setOption(item)}
+            />
           ))}
         </div>
       </div>
