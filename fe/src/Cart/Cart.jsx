@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
 import React, { useState, useMemo, useEffect } from 'react';
 
@@ -6,17 +5,16 @@ import Header from '../components/Header';
 import CartItem from './components/CartItem';
 import './css/Cart.css';
 
-const Cart = function () {
-  const getTotal = (arr) =>
-    arr.reduce((acc, v) => v.quantity * v.price + acc, 0);
+const getTotal = (arr) => arr.reduce((acc, v) => v.quantity * v.price + acc, 0);
 
+const Cart = function () {
   const [cartList, setCartList] = useState([]);
   const onClick = (e) => {
     setCartList((prev) => prev.filter((item) => item.name !== e.target.value));
   };
-  const onChangeQuantity = (menu_id, option, value) => {
+  const onChangeQuantity = (menu_id, value) => {
     const newList = cartList.map((obj) => {
-      if (obj.menu_id === menu_id && obj.option.name === option.name) {
+      if (obj.menu_id === menu_id) {
         return { ...obj, quantity: value };
       }
       return { ...obj };
@@ -39,9 +37,8 @@ const Cart = function () {
     <div className="cart">
       <Header text="장바구니" />
       <div className="cart-middle">
-        {cartList.map((item, index) => (
+        {cartList.map((item) => (
           <CartItem
-            key={item.menu_id + index}
             item={item}
             onClick={onClick}
             onChangeQuantity={onChangeQuantity}
@@ -49,10 +46,9 @@ const Cart = function () {
         ))}
       </div>
       <div className="cart-bottom">
-        <div className="cart-total">
-          <span className="cart-total-text">총액</span>
-          <span className="cart-total-price">{`${totalPrice.toLocaleString()}원`}</span>
-        </div>
+        <span className="cart-total-price">{`${totalPrice
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
         <button type="button" className="cart-order">
           주문 QR 받기
         </button>

@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 import '../css/CartItem.css';
 
 const CartItem = function ({ item, onClick, onChangeQuantity }) {
-  const { menu_id, name, img, quantity, option } = item;
+  const { menu_id, name, price, img, quantity } = item;
   const onIncrease = () => {
-    onChangeQuantity(menu_id, option, quantity + 1);
+    onChangeQuantity(menu_id, quantity + 1);
   };
   const onDecrease = () => {
-    onChangeQuantity(menu_id, option, quantity - 1);
+    onChangeQuantity(menu_id, quantity - 1);
   };
   return (
     <div className="cart-item">
@@ -31,7 +31,7 @@ const CartItem = function ({ item, onClick, onChangeQuantity }) {
           X
         </button>
         <span className="cart-item-name">{name}</span>
-        <span className="cart-item-option">{`가격: ${option.name}`}</span>
+        <span className="cart-item-option">가격: ICE</span>
         <div className="cart-item-bottom">
           <div className="cart-item-quantity">
             <button
@@ -51,9 +51,9 @@ const CartItem = function ({ item, onClick, onChangeQuantity }) {
               +
             </button>
           </div>
-          <span className="cart-item-price">{`${(
-            option.price * quantity
-          ).toLocaleString()}원`}</span>
+          <span className="cart-item-price">{`${(price * quantity)
+            .toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
         </div>
       </div>
     </div>
