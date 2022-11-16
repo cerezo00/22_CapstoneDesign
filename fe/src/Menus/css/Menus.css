@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.menus-list {
+    margin-top: 50px;
+}
+
 .menus-option {
     position: fixed;
     overflow: hidden;
