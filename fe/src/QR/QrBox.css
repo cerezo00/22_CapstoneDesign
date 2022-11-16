@@ -3,7 +3,7 @@
     height: 100%;
     text-align: center;
     position: relative;
-    top: 3vh;
+    top: 10vh;
     line-height: 2rem;
     color: black;
 }
@@ -33,5 +33,5 @@
 }
 
 .QrBox-QRcode {
-    margin-top: 2.5vh;
+    margin-top: 1.8vh;
 }
