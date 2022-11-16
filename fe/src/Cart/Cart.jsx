@@ -12,9 +12,9 @@ const Cart = function () {
   const onClick = (e) => {
     setCartList((prev) => prev.filter((item) => item.name !== e.target.value));
   };
-  const onChangeQuantity = (menu_id, value) => {
+  const onChangeQuantity = (menu_id, option, value) => {
     const newList = cartList.map((obj) => {
-      if (obj.menu_id === menu_id) {
+      if (obj.menu_id === menu_id && obj.option.name === option.name) {
         return { ...obj, quantity: value };
       }
       return { ...obj };
@@ -46,9 +46,7 @@ const Cart = function () {
         ))}
       </div>
       <div className="cart-bottom">
-        <span className="cart-total-price">{`${totalPrice
-          .toString()
-          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}원`}</span>
+        <span className="cart-total-price">{`${totalPrice.toLocaleString()}원`}</span>
         <button type="button" className="cart-order">
           주문 QR 받기
         </button>
