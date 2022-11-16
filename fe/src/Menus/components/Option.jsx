@@ -43,7 +43,7 @@ const Option = function ({ item, onClose }) {
       if (
         acc.findIndex(
           ({ menu_id, option }) =>
-            menu_id === current.menu_id && option.name === current.name
+            menu_id === current.menu_id && option.name === current.option.name
         ) === -1
       ) {
         acc.push(current);
