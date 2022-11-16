@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 
@@ -9,22 +9,17 @@ import '../css/Option.css';
 
 const data = [
   {
-    id: 1,
     option: 'ICE',
-    price: 4500,
+    price: '4,500원',
   },
   {
-    id: 2,
     option: 'HOT',
-    price: 5000,
+    price: '4,500원',
   },
 ];
 
 const Option = function ({ item, onClose }) {
-  const [radio, setRadio] = useState(data[0]);
-  useEffect(() => {
-    console.log(radio);
-  }, [radio]);
+  const [radio, setRadio] = useState('ICE');
   const onClickCart = () => {
     let arr = JSON.parse(localStorage.getItem('shoppingCart'));
 
@@ -32,22 +27,10 @@ const Option = function ({ item, onClose }) {
       arr = [];
     }
 
-    const pushItem = {
-      ...item,
-      option: {
-        name: radio.option,
-        price: radio.price,
-      },
-    };
-    arr.push(pushItem);
+    arr.push(item);
 
     const newArray = arr.reduce((acc, current) => {
-      if (
-        acc.findIndex(
-          ({ menu_id, option }) =>
-            menu_id === current.menu_id && option.name === current.name
-        ) === -1
-      ) {
+      if (acc.findIndex(({ menu_id }) => menu_id === current.menu_id) === -1) {
         acc.push(current);
       }
       return acc;
@@ -56,8 +39,8 @@ const Option = function ({ item, onClose }) {
     localStorage.setItem('shoppingCart', JSON.stringify(newArray));
     onClose();
   };
-  const onChange = (id) => {
-    setRadio(data.find((elem) => elem.id === id));
+  const onChange = (e) => {
+    setRadio(e.target.value);
   };
   return (
     <div className="option">
@@ -81,13 +64,13 @@ const Option = function ({ item, onClose }) {
                 <input
                   type="radio"
                   name="price"
-                  value={e.id}
-                  checked={radio.id === e.id}
-                  onChange={() => onChange(e.id)}
+                  value={e.option}
+                  checked={radio === e.option}
+                  onChange={onChange}
                 />
                 <div className="option-price-text">
                   <span>{e.option}</span>
-                  <span>{`${e.price.toLocaleString()}원`}</span>
+                  <span>{e.price}</span>
                 </div>
               </label>
             ))}
