@@ -3,6 +3,7 @@ import PersonPinOutlinedIcon from '@mui/icons-material/PersonPinOutlined'; // �
 import PanToolAltOutlinedIcon from '@mui/icons-material/PanToolAltOutlined'; // 손 터치
 import EggOutlinedIcon from '@mui/icons-material/EggOutlined';
 import "./OrderButton.css";
+import { Link } from 'react-router-dom';
 
 function OrderButton() {
     // const storeName = 'StarBucks';
@@ -15,10 +16,9 @@ function OrderButton() {
                 text: 'Capstone', // 수정필요 (공유는 https 환경에서만 가능, 로컬 http는 불가능)
                 url: 'https://capston',  // 수정필요 (공유는 https 환경에서만 가능, 로컬 http는 불가능)
               });
-            window.location.href=""
         } 
         else if(event.target.value === "2") {
-            window.location.href=""
+            <Link to="/menus" />
         } 
         else if(event.target.value === "3") {
             window.location.href=""
