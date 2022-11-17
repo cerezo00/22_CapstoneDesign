@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.result {
+    margin-top: 100px;
+    word-wrap: break-word;
+    width: 300px;
+}
+
+.Scanner-bar {
+    display: inline-block;
+    padding: 3%;
+    margin-top: 4vh;
+    margin-bottom: 2vh;
+    margin-left: 4.5%;
+    margin-right: 4.5%;
+    width: 85%;
+    text-align: center;
+    color: white;
+    font-size: 1.6rem;
+    background-color: #0c6234c5;
+    border-radius: 4px;
+    font-weight: bold;
+    border: none;
+}
+
+.Scanner-message {
+    margin-top: 2rem;
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.678);
+}
+
+.Scanner-WebCam-message {
+    margin-left: 1rem;
+}

@@ -1,0 +1,37 @@
+.QrBox-message {
+    font-size: 110%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+    top: 10vh;
+    line-height: 2rem;
+    color: black;
+}
+
+.QrBox-payment {
+    color: #0c6234;
+    font-weight: bold;
+    font-size: 120%;
+    margin-bottom: 2vh;
+}
+
+.QrBox-scan {
+    font-weight: bolder;
+    font-size: 130%;
+    margin-bottom: 1vh;
+}
+
+.QrBox-guide {
+    display: inline-block;
+    width: 100%;
+    font-weight: bolder;
+    color: rgba(0, 0, 0, 0.589);
+}
+
+.QrBox-span {
+    color:#f03312a1;
+}
+
+.QrBox-QRcode {
+    margin-top: 1.8vh;
+}

@@ -1,0 +1,49 @@
+.StartButton-buttonicon {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    font-size: 250% !important;
+    margin-bottom: 1vh;
+    clear: none;
+}
+
+.StartButton-orderbutton {
+    width: 35%;
+    height: 13vh;
+    font-size: 1rem;
+    margin: 2%;
+    background-color: rgba(255, 255, 255, 0.911);
+    border: 0;
+    outline: 0;
+    border-radius: 20px;
+    color:#082b17d7;
+    
+}
+
+/*.StartButton-orderbutton.active,*/
+.StartButton-orderbutton:hover {
+    background-color: #0c6234f1;
+    color: rgba(255, 255, 255, 0.877);
+}
+
+#StartButton-help {
+    width: 74%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 1%;
+    
+}
+
+.StartButton-button-container {
+    text-align: center;
+}
+
+.StartButton-container {
+    padding-top: 63vh;
+    overflow: hidden;
+}
+
+#direct {
+    background-color: #0c6234f1;
+    color: rgba(255, 255, 255, 0.877);
+}

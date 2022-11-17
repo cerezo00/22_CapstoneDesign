@@ -1,0 +1,19 @@
+.menus {
+    position: relative;
+}
+
+.menus-list {
+    margin-top: 50px;
+}
+
+.menus-option {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+}
+
+.menus-background__black {
+    height: 100vh;
+    background-color: rgb(45, 45, 45);
+    opacity: 0.5;
+}
