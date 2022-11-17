@@ -7,7 +7,7 @@ import {useLocation} from "react-router-dom";
 import CartItem from '../Cart/components/CartItem';
 import '../Cart/css/Cart.css';
 /*
-const datas = [
+const datas = [       -> (data)
     {
         menu_id: 1,
         name: '아메리카노',
