@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../components/Header';
-import Product from './components/Product';
-import Option from './components/Option';
+import Product from '../components/Product';
+import Option from '../components/Option';
 import './css/Menus.css';
 
 const data = [

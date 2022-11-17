@@ -5,7 +5,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 
-import '../css/Product.css';
+import './css/Product.css';
 
 const Product = function ({ item, onClick }) {
   const { name, tag, price, img } = item;
