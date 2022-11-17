@@ -1,0 +1,62 @@
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.ingredients-text {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px;
+    color: rgb(71, 71, 71);
+}
+
+.ingredients-check {
+    display: none;
+}
+
+.ingredients-check-btn {
+    border: 2px solid gray;
+    border-radius: 15px;
+    padding: 7px 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.ingredients-check-btn__checked {
+    border: 2px solid #0c6234;
+    background-color: #0c6234;
+    color: white;
+    padding: 7px;
+    border-radius: 15px;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.ingredients-body {
+    width: 90%;
+    margin-top: 20px;
+}
+
+.ingredients-search-btn {
+    position: fixed;
+    bottom: 0px;
+    width: 90%;
+    background-color: #0c6234;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.ingredients-search-btn {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
