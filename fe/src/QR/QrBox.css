@@ -3,9 +3,10 @@
     height: 100%;
     text-align: center;
     position: relative;
-    top: 10vh;
+    top: 12vh;
     line-height: 2rem;
     color: black;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .QrBox-payment {
@@ -13,6 +14,7 @@
     font-weight: bold;
     font-size: 120%;
     margin-bottom: 2vh;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .QrBox-scan {
@@ -26,6 +28,7 @@
     width: 100%;
     font-weight: bolder;
     color: rgba(0, 0, 0, 0.589);
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .QrBox-span {

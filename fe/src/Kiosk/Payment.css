@@ -7,12 +7,13 @@
 
 .Icon-container {
     width: 100%;
-    margin-top: 25vh;
+    margin-top: 26vh;
     margin-bottom: 3vh;
 }
 
 .Payment-container {
     text-align: center;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .Payment-payment-message {
@@ -31,6 +32,7 @@
     border-radius: 7px;
     border-color: #0c623475;
     color: #0c6234e7;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .ordernumber {
