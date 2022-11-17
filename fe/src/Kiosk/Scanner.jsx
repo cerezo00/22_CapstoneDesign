@@ -3,44 +3,43 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
 
-// import { TextareaAutosize } from '@mui/material';
 import React, {useState} from 'react';
 import {QrReader} from 'react-qr-reader';
-
+// import Kiosk from './Kiosk';
+import { Link } from 'react-router-dom';
 import styles from './Scanner.css';
 
-
-// const Scanner = () => {}
 function Scanner() {
-    const [result, setResult] = useState('No result');
+	const [scanResultWebCam, setScanResultWebCam] = useState('');
 
-	const handleError = (err) => {
-        // eslint-disable-next-line
-		console.err(err)
+	const handleErrorWebCam = (error) => {
+		// eslint-disable-next-line
+		console.log(error);
 	}
 
-	const handleScan = (results) => {
-		if(results){
-			setResult(results)
+	const handleScanWebCam = (result) => {
+		if(result) {
+			// 페이지 이동 코드 추가 (result도 같이 전달)
+			setScanResultWebCam(result);
+			<Link to={`/Kiosk/Payment/`} state={{qrvalue: result}} />
 		}
-	}
-
-	const previewStyle = {
-		height: 240,
-		width: 320,
 	}
 
 	return (
 		<div className={styles.container}>
+			<div className='Scanner-bar'>Scan QR Code</div>
+			<h4 className='Scanner-WebCam-message'>QRCode Scan By WebCam</h4>
 			<QrReader
-			delay={500}
-			style={previewStyle}
-			onError={handleError}
-			onScan={handleScan}
+			delay={300}
+			style={{width: '100%'}}
+			onError={handleErrorWebCam}
+			onScan={handleScanWebCam}
 			/>
-			<div className={styles.result}>{result}</div>		
+			<div className='Scanner-message'>발급 받으신 QR 코드를<br /> 카메라에 맞춰 스캔해주세요!</div>
+			<h3>Scanned By WebCam Code: {scanResultWebCam}</h3>	
 		</div>
 	);
 }
+
 
 export default Scanner;

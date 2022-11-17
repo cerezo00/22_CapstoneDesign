@@ -1,0 +1,39 @@
+#Payment-checkIcon {
+    display: inline-block;
+    color: #128f4cda;
+    font-size: 6rem;
+    text-align: center;
+}
+
+.Icon-container {
+    width: 100%;
+    margin-top: 25vh;
+    margin-bottom: 3vh;
+}
+
+.Payment-container {
+    text-align: center;
+}
+
+.Payment-payment-message {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.Payment-back {
+    background-color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.1rem;
+    border-radius: 7px;
+    border-color: #0c623475;
+    color: #0c6234e7;
+}
+
+.ordernumber {
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+}

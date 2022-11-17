@@ -10,10 +10,9 @@ function Start() {
     return (
         <div className="container">
             <div className="storename">{storeName}<br/></div>
-            <OrderButton />
+            <OrderButton className="orderbutton"/>
         </div>
     );
 }
 
-// <div className='img-cover'/>
 export default Start;

@@ -2,9 +2,10 @@ import React from "react";
 import "./QRButton.css";
 import ShareIcon from '@mui/icons-material/Share';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import PropTypes from 'prop-types';
 
 
-function QRButton() {
+const QRButton = function ({ handleShare }) {
     const downloadQRCode = () => {
         const canvas = document.getElementById("qr-gen");
 
@@ -19,7 +20,7 @@ function QRButton() {
         downloadLink.click();
         document.body.removeChild(downloadLink);
     };
-
+/*
     const handleClick = (event) => {
         if(event.target.value === "1") {
             event.preventDefault();
@@ -33,19 +34,23 @@ function QRButton() {
               });
         } 
     };
-
+*/
     return(
         <div className="QR-div-container">
             <div className="QR-button-container">
                 <button className="QR-orderbutton" id="save" type="button" value="1" onClick={downloadQRCode}>
                     <QrCodeIcon className="QR-buttonicon" id="icon"/><br /><span id="span">QR 저장</span>
                 </button>
-                <button className="QR-orderbutton" id="share" type="button" value="2" onClick={handleClick}>
+                <button className="QR-orderbutton" id="share" type="button" value="2" onClick={handleShare}>
                     <ShareIcon className="QR-buttonicon" id="icon"/><br /><span id="span">QR 공유</span>
                 </button>
             </div>
         </div>
     );
 }
+
+QRButton.propTypes = {
+    handleShare: PropTypes.func.isRequired,
+  };
 
 export default QRButton;
