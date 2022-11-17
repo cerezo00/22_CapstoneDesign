@@ -7,20 +7,29 @@ import "../components/css/Header.css";
 import "./QrBox.css";
 // import QRImage from "./QRImage";
 
+// 장바구니 페이지에서 가져온 데이터
 const datas = [
     {
         menu_id: 1,
         name: '아메리카노',
         img: 'americano',
         quantity: 1,
-        option: 'ICE',
+        option: {
+            name: 'ICE',
+            price: 4500,
+          },
+        price: 4500,
     },
     { 
         menu_id: 2,
         name: '카페 라떼',
         img: 'caffelatte',
         quantity: 1,
-        option: 'ICE',
+        option: {
+            name: 'ICE',
+            price: 5000,
+          },
+        price: 5000,
     },
 ];
 // <Header text="QR 발급" />

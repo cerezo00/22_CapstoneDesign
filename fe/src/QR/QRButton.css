@@ -9,6 +9,7 @@
     border: none;
     font-weight: bold;
     color: #11472a93;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .QR-buttonicon {
@@ -27,7 +28,7 @@
 
 .QR-button-container {
     text-align: center;
-    padding-top: 11vh;
+    padding-top: 13vh;
     color: black;
 }
 

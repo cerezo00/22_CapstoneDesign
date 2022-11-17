@@ -21,7 +21,7 @@ function Scanner() {
 		if(result) {
 			// 페이지 이동 코드 추가 (result도 같이 전달)
 			setScanResultWebCam(result);
-			<Link to={`/Kiosk/Payment/`} state={{qrvalue: result}} />
+			<Link to={'/Kiosk/Payment/'} state={{qrvalue: result}} />
 		}
 	}
 
@@ -31,7 +31,7 @@ function Scanner() {
 			<h4 className='Scanner-WebCam-message'>QRCode Scan By WebCam</h4>
 			<QrReader
 			delay={300}
-			style={{width: '100%'}}
+			style={{width: '90%'}}
 			onError={handleErrorWebCam}
 			onScan={handleScanWebCam}
 			/>
