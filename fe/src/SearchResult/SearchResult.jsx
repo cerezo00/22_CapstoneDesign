@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Product from '../components/Product';
 import Option from '../components/Option';
-import './Menus.css';
 
 const data = [
   {
@@ -32,7 +31,7 @@ const data = [
   },
 ];
 
-const Menus = function () {
+const SearchResult = function () {
   const [isOptionOpen, setOptionOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
@@ -52,7 +51,7 @@ const Menus = function () {
           isOptionOpen ? 'menus-background__black' : 'menus-background'
         }
       >
-        <Header text="에스프레소" />
+        <Header text="검색 결과" />
         <div className="menus-list">
           {beverage.map((item) => (
             <Product
@@ -72,4 +71,4 @@ const Menus = function () {
   );
 };
 
-export default Menus;
+export default SearchResult;
