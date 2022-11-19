@@ -1,15 +1,14 @@
 .product {
     display: flex;
     width: 90%;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    height: 150px;
     margin: 0px auto;
     align-items: center;
 }
 
 .product-img {
-    height: 90px;
-    width: 90px;
+    height: 100px;
+    width: 100px;
     border-radius: 50px;
     margin-right: 15px;
 }
@@ -21,17 +20,18 @@
 }
 
 .product-name {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
 }
 
 .product-tag {
-    font-size: 14px;
+    font-size: 16px;
     color: gray;
-    margin-bottom: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .product-price {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
 }

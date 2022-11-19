@@ -18,19 +18,26 @@
 
 .option-header {
     height: 50px;
-    width: 100%;
+    width: 95%;
     margin-top: 20px;
     position: absolute;
     display: flex;
     justify-content: right;
+    align-items: center;
 }
 
 .option-close {
+    background-color: rgba(255, 255, 255, 0.579);
+    width: 40px;
+    height: 40px;
     border: none;
-    background-color: rgba(255, 255, 255, 0);
-    margin-right: 10px;
+    border-radius: 50%;
     font-size: 20px;
-    color: gray;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 }
 
 @keyframes slider {
@@ -90,6 +97,7 @@
     width: 90%;
     margin: 0px auto;
     justify-content: space-between;
+    font-size: 18px;
 }
 
 .option-btn {
