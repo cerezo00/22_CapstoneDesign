@@ -6,11 +6,21 @@ import Header from '../components/Header';
 import CartItem from './components/CartItem';
 import './css/Cart.css';
 
+const initCart = () => {
+  let items = JSON.parse(localStorage.getItem('shoppingCart'));
+
+  if (items === null) {
+    items = [];
+  }
+
+  return items;
+};
+
 const Cart = function () {
   const getTotal = (arr) =>
     arr.reduce((acc, v) => v.quantity * v.price + acc, 0);
 
-  const [cartList, setCartList] = useState([]);
+  const [cartList, setCartList] = useState(initCart);
   const onClick = (e) => {
     setCartList((prev) => prev.filter((item) => item.name !== e.target.value));
   };
@@ -25,14 +35,8 @@ const Cart = function () {
   };
 
   useEffect(() => {
-    let items = JSON.parse(localStorage.getItem('shoppingCart'));
-
-    if (items === null) {
-      items = [];
-    }
-
-    setCartList(items);
-  }, []);
+    localStorage.setItem('shoppingCart', JSON.stringify(cartList));
+  }, [cartList]);
 
   const totalPrice = useMemo(() => getTotal(cartList), [cartList]);
   return (
