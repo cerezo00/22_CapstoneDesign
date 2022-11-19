@@ -46,20 +46,55 @@ class menus(Resource):
   def get(self, categoryId):
     '''카테고리에 해당하는 메뉴 목록'''
 
-    resultset = db.execute(f'''
-      SELECT id, name, description
-      FROM foodservice.menu
-      JOIN (SELECT menu_id
-          FROM foodservice.`category-menu-map` as cmmap
-          WHERE cmmap.category_id = {categoryId}) as v1
-      ON id = v1.menu_id;''')
-    resp = { 'menus' : list() }
-    for record in resultset:
-      resp["menus"].append({
-                            'id': record.id,
-                            'name': record.name,
-                            'description': record.description,
-                          })      
+    try:
+      resultset = db.execute(f'''
+        SELECT id, name, description
+        FROM foodservice.menu
+        JOIN (SELECT menu_id
+            FROM foodservice.`category-menu-map` as cmmap
+            WHERE cmmap.category_id = :categoryId) as v1
+        ON id = v1.menu_id;''',
+        {"categoryId" : categoryId}
+        )
+      resp = { 'menus' : list() }
+      for record in resultset:
+        resp["menus"].append({
+                              'id': record.id,
+                              'name': record.name,
+                              'price': 0,
+                              'tags': [],
+                            })     
+        # 첫번째 옵션 메뉴 가격 조회
+        firstOptionPrice = db.execute(f'''
+          SELECT price
+          FROM foodservice.option_menu
+          JOIN (SELECT option_menu_id as oid
+              FROM foodservice.`menu-option_menu-map`
+              WHERE menu_id = :mid
+              LIMIT 1) as v1
+          ON id = v1.oid
+          ;''',
+          {"mid" : record.id}
+        ).fetchone()
+        if firstOptionPrice != None:
+          resp["menus"][-1]['price'] = firstOptionPrice[0]
+
+
+        # 태그 검색                            
+        getTags =  db.execute(f'''
+          SELECT name
+          FROM foodservice.tag
+          JOIN (SELECT tag_id
+              FROM foodservice.`menu-tag-map`
+              WHERE menu_id = :menuID) as v1
+          ON id = v1.tag_id;''',
+          {"menuID" : record.id}
+        )
+        for t in getTags:
+          resp["menus"][-1]['tags'].append(t.name)
+    except:
+      return "DB Error", 501
+
     return resp
   
 formTags = api.parser()
@@ -72,27 +107,73 @@ class menusByTags(Resource):
     tagIDs = formTags.parse_args()["tagIDs"]
 
     if not tagIDs:
-      sql = '''SELECT * FROM foodservice.menu;'''
+      return "No Tag selected", 400
 
-    else:
-      sql = '''(SELECT DISTINCT menu_id 
-              FROM foodservice.`menu-tag-map` WHERE '''
+    tagQuery = ""
+    for tid in tagIDs:  # 쿼리 이렇게 가면 SQL Injection 에 취약할지도 모름.
+      tagQuery += f'''tag_id = {tid} or '''
 
-      for tid in tagIDs:  # 쿼리 이렇게 가면 SQL Injection 에 취약할지도 모름.
-        sql += f'''tag_id = {tid} or '''
-      sql = '''SELECT id, name, description
+    try:
+      resultset = db.execute(f'''
+        SELECT menu_id
+        FROM foodservice.`menu-tag-map`
+        WHERE {tagQuery[:-4]}
+        GROUP BY menu_id
+        ORDER BY COUNT(menu_id) desc
+        '''
+      )
+
+      resp = { 'menus' : list() } # JSON 직렬화코드 Model 클래스 메소드로 옮겨도 될듯. -> "경험을해보고 겹치는걸 봐야, 개선이 가능하다"
+      for record in resultset:
+        resp["menus"].append({
+                              'id': record.menu_id,
+                              'name': "",
+                              'price': 0,
+                              'tags' : [],
+                            })   
+
+        # 메뉴 기본정보
+        menuInfo = db.execute(f'''
+          SELECT id, name 
           FROM foodservice.menu
-          JOIN ''' + sql[:-4] + ') v1 ON v1.menu_id = id;'
+          WHERE id = :menuID
+        ''',
+        {"menuID": record.menu_id}        
+        ).fetchone()
+        if menuInfo != None:
+          resp["menus"][-1]['id'] = menuInfo[0]
+          resp["menus"][-1]['name'] = menuInfo[1]
 
-    resultset = db.execute(sql)
-    print(sql)
-    resp = { 'menus' : list() } # JSON 직렬화코드 Model 클래스 메소드로 옮겨도 될듯. -> "경험을해보고 겹치는걸 봐야, 개선이 가능하다"
-    for record in resultset:
-      resp["menus"].append({
-                            'id': record.id,
-                            'name': record.name,
-                            'description': record.description,
-                          })      
+        # 가격찾기
+        firstOptionPrice = db.execute(f'''
+          SELECT price
+          FROM foodservice.option_menu
+          JOIN (SELECT option_menu_id as oid
+              FROM foodservice.`menu-option_menu-map`
+              WHERE menu_id = :mid
+              LIMIT 1) as v1
+          ON id = v1.oid
+          ;''',
+          {"mid" : record.menu_id}
+        ).fetchone()
+        if firstOptionPrice != None:
+          resp["menus"][-1]['price'] = firstOptionPrice[0]
+
+        # 태그 검색                            
+        getTags =  db.execute(f'''
+          SELECT name
+          FROM foodservice.tag
+          JOIN (SELECT tag_id
+              FROM foodservice.`menu-tag-map`
+              WHERE menu_id = :menuID) as v1
+          ON id = v1.tag_id;''',
+          {"menuID" : record.menu_id}
+        )
+        for t in getTags:
+          resp["menus"][-1]['tags'].append(t.name)         
+    except:
+      return "DB Error", 501
+    
     return resp
 
 @api.route('/categoriesWithMenus/<int:storeKey>')
