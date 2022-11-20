@@ -18,15 +18,17 @@ const initCart = () => {
 
 const Cart = function () {
   const getTotal = (arr) =>
-    arr.reduce((acc, v) => v.quantity * v.price + acc, 0);
+    arr.reduce((acc, v) => v.quantity * v.option.price + acc, 0);
 
   const [cartList, setCartList] = useState(initCart);
-  const onClick = (e) => {
-    setCartList((prev) => prev.filter((item) => item.name !== e.target.value));
+  const onClick = (id, optinId) => {
+    setCartList((prev) =>
+      prev.filter((item) => !(item.id === id && item.option.id === optinId))
+    );
   };
-  const onChangeQuantity = (menu_id, option, value) => {
+  const onChangeQuantity = (id, option, value) => {
     const newList = cartList.map((obj) => {
-      if (obj.menu_id === menu_id && obj.option.name === option.name) {
+      if (obj.id === id && obj.option.id === option.id) {
         return { ...obj, quantity: value };
       }
       return { ...obj };
