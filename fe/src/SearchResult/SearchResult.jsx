@@ -1,43 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 import Header from '../components/Header';
 import Product from '../components/Product';
 import Option from '../components/Option';
 
-const data = [
-  {
-    menu_id: 1,
-    name: '아메리카노',
-    tag: '#샷 #물',
-    price: 4500,
-    quantity: 1,
-    img: 'americano',
-  },
-  {
-    menu_id: 2,
-    name: '카페 라떼',
-    tag: '#샷 #우유',
-    price: 5000,
-    quantity: 1,
-    img: 'caffelatte',
-  },
-  {
-    menu_id: 3,
-    name: '돌체라떼',
-    tag: '#샷 #무지방 우유 #돌체 시럽',
-    price: 5500,
-    quantity: 1,
-    img: 'dolcelatte',
-  },
-];
+import '../Menus/Menus.css';
 
 const SearchResult = function () {
+  const { state } = useLocation();
   const [isOptionOpen, setOptionOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
 
   useEffect(() => {
-    setBeverage(data);
+    axios
+      .get(`/api/v1/store/menus?tagIDs=${state.tags}`, {
+        headers: {
+          accept: 'application/json',
+        },
+      })
+      .then((response) => {
+        setBeverage(response.data.menus);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   }, []);
 
   const setOption = (e) => {
