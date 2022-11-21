@@ -18,7 +18,7 @@ const Product = function ({ item, onClick }) {
       <div className="product-info">
         <span className="product-name">{name}</span>
         <span className="product-tag">
-          {tags.reduce((elem, acc) => acc + '#' + elem + ' ', '')}
+          {tags.reduce((elem, acc) => elem + '#' + acc + ' ', '')}
         </span>
         <span className="product-price">{`${price.toLocaleString()}원`}</span>
       </div>
