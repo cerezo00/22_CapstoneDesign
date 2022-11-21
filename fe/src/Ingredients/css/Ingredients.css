@@ -20,19 +20,19 @@
     border: 2px solid gray;
     border-radius: 15px;
     padding: 7px 10px;
-    margin-right: 10px;
-    font-size: 16px;
+    margin-right: 15px;
+    font-size: 18px;
     font-weight: 500;
 }
 
 .ingredients-check-btn__checked {
     border: 2px solid #0c6234;
     background-color: #0c6234;
-    color: white;
-    padding: 7px;
     border-radius: 15px;
-    margin-right: 10px;
-    font-size: 16px;
+    color: white;
+    padding: 7px 10px;
+    margin-right: 15px;
+    font-size: 18px;
     font-weight: 500;
 }
 
