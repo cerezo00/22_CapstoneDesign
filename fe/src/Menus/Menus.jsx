@@ -14,6 +14,12 @@ const Menus = function () {
   const [isOptionOpen, setOptionOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
+  const [cartText, setCartText] = useState(false);
+
+  const showText = () => {
+    setCartText(true);
+    setTimeout(() => setCartText(false), 2000);
+  };
 
   useEffect(() => {
     axios
@@ -55,10 +61,14 @@ const Menus = function () {
       </div>
       <div className="menu-option">
         {isOptionOpen && (
-          <Option item={clickedItem} onClose={() => setOptionOpen(false)} />
+          <Option
+            item={clickedItem}
+            onClose={() => setOptionOpen(false)}
+            setCarttext={() => showText()}
+          />
         )}
       </div>
-      <CartButton />
+      <CartButton cartText={cartText} />
     </div>
   );
 };

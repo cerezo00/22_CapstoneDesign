@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -9,7 +8,7 @@ import PropTypes from 'prop-types';
 import './css/Option.css';
 import axios from 'axios';
 
-const Option = function ({ item, onClose }) {
+const Option = function ({ item, onClose, setCarttext }) {
   const [optionList, setOptionList] = useState([]);
   const [radio, setRadio] = useState('');
 
@@ -63,7 +62,7 @@ const Option = function ({ item, onClose }) {
 
     localStorage.setItem('shoppingCart', JSON.stringify(newArray));
     onClose();
-    location.reload();
+    setCarttext();
   };
   const onChange = (elem) => {
     setRadio(elem);
@@ -120,6 +119,7 @@ const Option = function ({ item, onClose }) {
 Option.propTypes = {
   item: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  setCarttext: PropTypes.func.isRequired,
 };
 
 export default Option;
