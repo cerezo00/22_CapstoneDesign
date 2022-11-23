@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import React, { useState, useMemo, useEffect } from 'react';
-// import {useLocation, useNavigate} from "react-router-dom";
-// import { Link } from 'react-router-dom';
-
-// import Header from '../components/Header';
+import { useNavigate, useLocation } from "react-router-dom";
+import Header from '../components/Header';
 import CartItem from './KioskCartItem';
 import '../Cart/css/Cart.css';
 
+
 // qr을 찍어서 데이터를 가져옴
+/*
 const datas = [
     {
         menu_id: 1,
@@ -32,17 +32,19 @@ const datas = [
         price: 5000,
     },
 ];
+*/
 
 const getTotal = (arr) => arr.reduce((acc, v) => v.quantity * v.price + acc, 0);
 
-const dataset = JSON.stringify(datas);
+// const dataset = JSON.stringify(datas);
 
-// <Header text="장바구니" />
 const Kiosk = function() {
-    // const location = useLocation();
-    // const data = location.state.qrvalue;
+  // 페이지 이동 시 전달 받은 데이터
+  const { qrdata } = useLocation();
+  // const qrdata = location.state.qrvalue;
 
   const [cartList, setCartList] = useState([]);
+  const navigate = useNavigate();
 
   const onClick = (e) => {
     setCartList((prev) => prev.filter((item) => item.name !== e.target.value));
@@ -59,9 +61,9 @@ const Kiosk = function() {
 
   useEffect(() => {
     // qr 스캐너 페이지에서 받은 문자열 json인 data
-    let items = JSON.parse(dataset); // {data}
+    let items = JSON.parse(qrdata); // {qrdata}
     // eslint-disable-next-line
-    console.log(dataset);
+    console.log(items);
 
     if (items === null) {
       items = [];
@@ -70,19 +72,15 @@ const Kiosk = function() {
     setCartList(items);
   }, []);
 
- // const PaymentPage = () => {
- //   const navigate = useNavigate();
-// }
-
   const ClickPayment = () => {
-    // payment 페이지로 이동
-    // navigate("/payment");
+      // payment 페이지로 이동
+      navigate('/payment');
   }
 
   const totalPrice = useMemo(() => getTotal(cartList), [cartList]);
   return (
     <div className="cart">
-      
+      <Header text="장바구니" />
         <div className="cart-middle">
             {cartList.map((item) => (
                 <CartItem
@@ -93,7 +91,10 @@ const Kiosk = function() {
             ))}
         </div>
         <div className="cart-bottom">
-            <span className="cart-total-price">{`${totalPrice.toLocaleString()}원`}</span>
+          <div className="cart-total">
+            <span className="cart-total-text">총액</span>
+              <span className="cart-total-price">{`${totalPrice.toLocaleString()}원`}</span>
+          </div>
             <button type="button" className="cart-order" onClick={ClickPayment}>
                 결제하기
             </button>
