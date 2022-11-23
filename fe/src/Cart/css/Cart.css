@@ -56,4 +56,11 @@
     color: white;
     background-color: #0c6234;
     font-family: 'Noto Sans KR', sans-serif;
+    animation: scaleBounce 1s ;
+}
+
+@keyframes scaleBounce{
+	0% {transform:scale(1.0)}
+	50% {transform:scale(1.1)}
+    100% {transform:scale(1.0)}
 }

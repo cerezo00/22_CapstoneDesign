@@ -4,6 +4,7 @@
     height: 150px;
     margin-top: 20px;
     font-family: 'Noto Sans KR', sans-serif;
+    border-bottom: 1px solid rgba(158, 158, 158, 0.367);
 }
 
 .cart-item-img {
