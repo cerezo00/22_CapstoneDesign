@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .cart-middle {
@@ -54,4 +55,5 @@
     font-size: 18px;
     color: white;
     background-color: #0c6234;
+    font-family: 'Noto Sans KR', sans-serif;
 }

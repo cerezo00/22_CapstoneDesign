@@ -4,6 +4,8 @@
     height: 150px;
     margin: 0px auto;
     align-items: center;
+    border-bottom: 1px solid rgba(158, 158, 158, 0.367);
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .product-img {

@@ -1,3 +1,7 @@
+.order {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 .order-category{
     margin-top: 50px;
     display: flex;
