@@ -23,7 +23,7 @@
 
 .cart-item-name {
     margin-right: auto;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     margin-bottom: 3px;
 }
@@ -59,7 +59,7 @@
 
 .cart-item-quantity-text {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .cart-item-quantity-btn {
@@ -78,7 +78,7 @@
 
 .cart-item-price {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .cart-item-quantity-btn:disabled {
