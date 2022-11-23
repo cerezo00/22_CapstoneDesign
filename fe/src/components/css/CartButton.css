@@ -1,0 +1,28 @@
+.cart-button {
+    z-index: 10;
+    position: fixed;
+    bottom: 7%;
+    right: 7%;
+    text-decoration: none;
+}
+
+.cart-button-img {
+    width: 45px;
+    padding: 15px;
+    background-color: #0c6234;
+    border-radius: 50%;
+}
+
+.cart-button-img__active {
+    width: 45px;
+    padding: 15px;
+    background-color: #0c6234;
+    border-radius: 50%;
+    animation: scaleCart 0.8s ;
+}
+
+@keyframes scaleCart{
+	0% {transform:scale(1.0)}
+	50% {transform:scale(1.3)}
+    100% {transform:scale(1.0)}
+}
