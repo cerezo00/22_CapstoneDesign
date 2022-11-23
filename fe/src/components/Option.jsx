@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -62,6 +63,7 @@ const Option = function ({ item, onClose }) {
 
     localStorage.setItem('shoppingCart', JSON.stringify(newArray));
     onClose();
+    location.reload();
   };
   const onChange = (elem) => {
     setRadio(elem);
