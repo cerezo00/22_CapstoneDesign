@@ -1,44 +1,40 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 
 import Header from '../components/Header';
 import Product from '../components/Product';
 import Option from '../components/Option';
 import './Menus.css';
-
-const data = [
-  {
-    menu_id: 1,
-    name: '아메리카노',
-    tag: '#샷 #물',
-    price: 4500,
-    quantity: 1,
-    img: 'americano',
-  },
-  {
-    menu_id: 2,
-    name: '카페 라떼',
-    tag: '#샷 #우유',
-    price: 5000,
-    quantity: 1,
-    img: 'caffelatte',
-  },
-  {
-    menu_id: 3,
-    name: '돌체라떼',
-    tag: '#샷 #무지방 우유 #돌체 시럽',
-    price: 5500,
-    quantity: 1,
-    img: 'dolcelatte',
-  },
-];
+import CartButton from '../components/CartButton';
 
 const Menus = function () {
+  const { id } = useParams();
+  const { state } = useLocation();
   const [isOptionOpen, setOptionOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState({});
   const [beverage, setBeverage] = useState([]);
+  const [cartText, setCartText] = useState(false);
+
+  const showText = () => {
+    setCartText(true);
+    setTimeout(() => setCartText(false), 2000);
+  };
 
   useEffect(() => {
-    setBeverage(data);
+    axios
+      .get(`/api/v1/store/menus/${id}`, {
+        headers: {
+          accept: 'application/json',
+        },
+      })
+      .then((response) => {
+        setBeverage(response.data.menus);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   }, []);
 
   const setOption = (e) => {
@@ -52,22 +48,27 @@ const Menus = function () {
           isOptionOpen ? 'menus-background__black' : 'menus-background'
         }
       >
-        <Header text="에스프레소" />
+        <Header text={state.name} />
         <div className="menus-list">
           {beverage.map((item) => (
             <Product
-              key={item.menu_id}
+              key={item.id}
               item={item}
               onClick={() => setOption(item)}
             />
           ))}
         </div>
       </div>
-      <div className="order-option">
+      <div className="menu-option">
         {isOptionOpen && (
-          <Option item={clickedItem} onClose={() => setOptionOpen(false)} />
+          <Option
+            item={clickedItem}
+            onClose={() => setOptionOpen(false)}
+            setCarttext={() => showText()}
+          />
         )}
       </div>
+      <CartButton cartText={cartText} />
     </div>
   );
 };
