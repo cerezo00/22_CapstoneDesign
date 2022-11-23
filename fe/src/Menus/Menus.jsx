@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Product from '../components/Product';
 import Option from '../components/Option';
 import './Menus.css';
+import CartButton from '../components/CartButton';
 
 const Menus = function () {
   const { id } = useParams();
@@ -52,11 +53,12 @@ const Menus = function () {
           ))}
         </div>
       </div>
-      <div className="order-option">
+      <div className="menu-option">
         {isOptionOpen && (
           <Option item={clickedItem} onClose={() => setOptionOpen(false)} />
         )}
       </div>
+      <CartButton />
     </div>
   );
 };
