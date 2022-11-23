@@ -1,29 +1,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import axios from 'axios';
 
+import Header from '../components/Header';
 import './css/Ingredients.css';
 
-const data = {
-  tags: [
-    {
-      id: 1,
-      name: '아이스',
-    },
-    {
-      id: 2,
-      name: '샷',
-    },
-    {
-      id: 3,
-      name: '우유',
-    },
-  ],
-};
-
 const Ingredients = function () {
+  const [tags, setTags] = useState([]);
   const [checkedArr, setCheckedArr] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/api/v1/store/tags/1', {
+        headers: {
+          accept: 'application/json',
+        },
+      })
+      .then((response) => {
+        setTags(response.data.tags);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }, []);
 
   const onCheckElement = (checked, id) => {
     if (checked) {
@@ -40,7 +41,7 @@ const Ingredients = function () {
         원하는 재료가 들어간 상품을 검색해보세요.
       </div>
       <div className="ingredients-body">
-        {data.tags.map((item) => (
+        {tags.map((item) => (
           <label key={item.id} className="ingredients-checkbox">
             <input
               className="ingredients-check"
@@ -61,7 +62,11 @@ const Ingredients = function () {
           </label>
         ))}
       </div>
-      <Link to="/search" className="ingredients-search-btn">
+      <Link
+        to="/search"
+        state={{ tags: checkedArr }}
+        className="ingredients-search-btn"
+      >
         상품 검색하기
       </Link>
     </div>

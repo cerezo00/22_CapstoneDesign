@@ -3,6 +3,8 @@
     width: 90%;
     height: 150px;
     margin-top: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-bottom: 1px solid rgba(158, 158, 158, 0.367);
 }
 
 .cart-item-img {
@@ -21,7 +23,7 @@
 
 .cart-item-name {
     margin-right: auto;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     margin-bottom: 3px;
 }
@@ -57,7 +59,7 @@
 
 .cart-item-quantity-text {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .cart-item-quantity-btn {
@@ -66,16 +68,17 @@
     border-radius: 50%;
     color: black;
     width: 30px;
-    height: 33px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
+    padding: 0px;
 }
 
 .cart-item-price {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .cart-item-quantity-btn:disabled {

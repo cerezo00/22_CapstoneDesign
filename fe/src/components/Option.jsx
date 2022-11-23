@@ -1,27 +1,34 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 
 import './css/Option.css';
+import axios from 'axios';
 
-const data = [
-  {
-    id: 1,
-    option: 'ICE',
-    price: 4500,
-  },
-  {
-    id: 2,
-    option: 'HOT',
-    price: 5000,
-  },
-];
+const Option = function ({ item, onClose, setCarttext }) {
+  const [optionList, setOptionList] = useState([]);
+  const [radio, setRadio] = useState('');
 
-const Option = function ({ item, onClose }) {
-  const [radio, setRadio] = useState(data[0]);
+  useEffect(() => {
+    axios
+      .get(`/api/v1/store/optionMenus/${item.id}`, {
+        headers: {
+          accept: 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        const arr = response.data.optionMenus;
+        setOptionList(arr.length ? arr : []);
+        setRadio(arr.length ? arr[0] : '');
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }, []);
 
   const onClickCart = () => {
     let arr = JSON.parse(localStorage.getItem('shoppingCart'));
@@ -33,17 +40,19 @@ const Option = function ({ item, onClose }) {
     const pushItem = {
       ...item,
       option: {
-        name: radio.option,
+        id: radio.id,
+        name: radio.name,
         price: radio.price,
       },
+      quantity: 1,
     };
     arr.push(pushItem);
 
     const newArray = arr.reduce((acc, current) => {
       if (
         acc.findIndex(
-          ({ menu_id, option }) =>
-            menu_id === current.menu_id && option.name === current.option.name
+          ({ id, option }) =>
+            id === current.id && option.id === current.option.id
         ) === -1
       ) {
         acc.push(current);
@@ -53,9 +62,10 @@ const Option = function ({ item, onClose }) {
 
     localStorage.setItem('shoppingCart', JSON.stringify(newArray));
     onClose();
+    setCarttext();
   };
-  const onChange = (id) => {
-    setRadio(data.find((elem) => elem.id === id));
+  const onChange = (elem) => {
+    setRadio(elem);
   };
   return (
     <div className="option">
@@ -67,28 +77,30 @@ const Option = function ({ item, onClose }) {
         </div>
         <img
           className="option-img"
-          src="images/americano.jpg"
+          src={`/api/v1/image/1/${item.id}`}
           alt="americano"
         />
         <div className="option-beverage">{item.name}</div>
         <div className="option-sort">
           <div className="option-name">가격</div>
           <div className="option-price">
-            {data.map((e) => (
-              <label className="option-price-radio">
-                <input
-                  type="radio"
-                  name="price"
-                  value={e.id}
-                  checked={radio.id === e.id}
-                  onChange={() => onChange(e.id)}
-                />
-                <div className="option-price-text">
-                  <span>{e.option}</span>
-                  <span>{`${e.price.toLocaleString()}원`}</span>
-                </div>
-              </label>
-            ))}
+            {optionList.length > 0
+              ? optionList.map((e) => (
+                  <label className="option-price-radio">
+                    <input
+                      type="radio"
+                      name="price"
+                      value={e.id}
+                      checked={radio.id === e.id}
+                      onChange={() => onChange(e)}
+                    />
+                    <div className="option-price-text">
+                      <span>{e.name}</span>
+                      <span>{`${e.price.toLocaleString()}원`}</span>
+                    </div>
+                  </label>
+                ))
+              : ''}
           </div>
         </div>
       </div>
@@ -107,6 +119,7 @@ const Option = function ({ item, onClose }) {
 Option.propTypes = {
   item: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  setCarttext: PropTypes.func.isRequired,
 };
 
 export default Option;
