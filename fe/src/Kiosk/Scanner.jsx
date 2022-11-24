@@ -3,25 +3,36 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
 
-import React, {useState} from 'react';
-import {QrReader} from 'react-qr-reader';
-// import Kiosk from './Kiosk';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import QrReader from 'react-web-qr-reader';
+import { useNavigate } from 'react-router-dom';
 import styles from './Scanner.css';
 
 function Scanner() {
-	const [scanResultWebCam, setScanResultWebCam] = useState('');
+	// const [scanResultWebCam, setScanResultWebCam] = useState('');
+	const navigate = useNavigate();
 
 	const handleErrorWebCam = (error) => {
 		// eslint-disable-next-line
 		console.log(error);
+		// eslint-disable-next-line
+		alert(error);
 	}
 
 	const handleScanWebCam = (result) => {
 		if(result) {
-			// 페이지 이동 코드 추가 (result도 같이 전달)
-			setScanResultWebCam(result);
-			<Link to={'/Kiosk/Payment/'} state={{qrvalue: result}} />
+			// eslint-disable-next-line
+			// alert(result);
+			// const data = JSON.parse(result);
+			// setScanResultWebCam(result);
+			// eslint-disable-next-line
+			// alert(data);
+			
+			navigate('/kiosk', {state: result});
+
+			// <Link to= {{
+			// 	pathname: '/kiosk', state: {qrvalue: result}
+			// }} /> // 페이지 이동, 이동 시 데이터 전송
 		}
 	}
 
@@ -29,17 +40,17 @@ function Scanner() {
 		<div className={styles.container}>
 			<div className='Scanner-bar'>Scan QR Code</div>
 			<h4 className='Scanner-WebCam-message'>QRCode Scan By WebCam</h4>
-			<QrReader
+			<QrReader className="qrscanner"
 			delay={300}
-			style={{width: '90%'}}
+			style={{width: '100%'}}
 			onError={handleErrorWebCam}
 			onScan={handleScanWebCam}
+			facingMode='user'
 			/>
 			<div className='Scanner-message'>발급 받으신 QR 코드를<br /> 카메라에 맞춰 스캔해주세요!</div>
-			<h3>Scanned By WebCam Code: {scanResultWebCam}</h3>	
 		</div>
 	);
 }
 
-
+// 	<h3>Scanned By WebCam Code: {scanResultWebCam}</h3>	
 export default Scanner;

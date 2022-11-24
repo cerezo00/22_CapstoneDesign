@@ -5,10 +5,9 @@
     margin: 1.5vw;
     background-color: rgba(226, 222, 222, 0.274);
     border-radius: 5px;
-    /*color: rgba(0, 0, 0, 0.644);*/
     border: none;
     font-weight: bold;
-    color: #11472a93;
+    color: #11472ab6;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -28,7 +27,7 @@
 
 .QR-button-container {
     text-align: center;
-    padding-top: 13vh;
+    padding-top: 14vh;
     color: black;
 }
 

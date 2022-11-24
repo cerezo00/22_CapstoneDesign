@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Payment() {
     const ordernumber = 100;
     const handleClick = () => {
-    <Link to="/Scanner" />
+    <Link to="/scanner" />
     }
 
     return(
