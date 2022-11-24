@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
 import React, { useState, useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import Header from '../components/Header';
 import CartItem from './components/CartItem';
@@ -59,9 +60,9 @@ const Cart = function () {
           <span className="cart-total-text">총액</span>
           <span className="cart-total-price">{`${totalPrice.toLocaleString()}원`}</span>
         </div>
-        <button type="button" className="cart-order">
+        <Link to="/qr" className="cart-order">
           주문 QR 받기
-        </button>
+        </Link>
       </div>
     </div>
   );
