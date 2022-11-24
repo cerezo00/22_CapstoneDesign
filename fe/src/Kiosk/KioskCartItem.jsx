@@ -7,26 +7,25 @@ import PropTypes from 'prop-types';
 import '../Cart/css/CartItem.css';
 
 const CartItem = function ({ item, onClick, onChangeQuantity }) {
-  const { menu_id, name, img, quantity, option } = item;
+  const { id, name, quantity, option } = item;
   const onIncrease = () => {
-    onChangeQuantity(menu_id, option, quantity + 1);
+    onChangeQuantity(id, option, quantity + 1);
   };
   const onDecrease = () => {
-    onChangeQuantity(menu_id, option, quantity - 1);
+    onChangeQuantity(id, option, quantity - 1);
   };
   return (
     <div className="cart-item">
       <img
         className="cart-item-img"
-        src={`images/${img}.jpg`}
+        src={`/api/v1/image/1/${id}`}
         alt="americano"
       />
       <div className="cart-item-info">
         <button
           type="button"
           className="cart-item-delete"
-          value={name}
-          onClick={onClick}
+          onClick={() => onClick(id, option.id)}
         >
           X
         </button>

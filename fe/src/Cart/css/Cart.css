@@ -57,6 +57,10 @@
     background-color: #0c6234;
     font-family: 'Noto Sans KR', sans-serif;
     animation: scaleBounce 1s ;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes scaleBounce{
