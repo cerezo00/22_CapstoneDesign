@@ -123,6 +123,10 @@
     font-size: 16px;
     font-weight: 500;
     font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .option-btn-cart {
