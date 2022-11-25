@@ -353,8 +353,8 @@ class Tag(Resource):
         INSERT INTO foodservice.`tag`(name)
         VALUES (:tag_name);   
 
-        INSERT INTO foodservice.`store-tag-map`
-        VALUES store_id = :storeID, tag_id = LAST_INSERT_ID() ;
+        INSERT INTO foodservice.`store-tag-map`(store_id, tag_id)
+        VALUES ( :storeID, LAST_INSERT_ID() ) ;
         ''', 
         {
           'tag_name' : tagName,
