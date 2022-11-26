@@ -75,8 +75,8 @@ const Kiosk = function () {
   }, []);
 
   const ClickPayment = () => {
-    // payment 페이지로 이동
-    navigate('/payment');
+    // 포장 or 매장 페이지로 이동
+    navigate('/option');
   };
 
   const totalPrice = useMemo(() => getTotal(cartList), [cartList]);
