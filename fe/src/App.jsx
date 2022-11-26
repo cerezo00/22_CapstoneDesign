@@ -12,6 +12,7 @@ import './App.css';
 import SearchResult from './SearchResult/SearchResult';
 import PayMent from './Kiosk/Payment';
 import Kiosk from './Kiosk/Kiosk';
+import OrderOption from './OrderOption/OrderOption';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path="/search" element={<SearchResult />} />
       <Route path="/payment" element={<PayMent />} />
       <Route path="/kiosk" element={<Kiosk />} />
+      <Route path="/option" element={<OrderOption />} />
     </Routes>
   );
 }

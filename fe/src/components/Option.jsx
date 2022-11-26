@@ -2,6 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 
@@ -108,9 +109,23 @@ const Option = function ({ item, onClose, setCarttext }) {
         <button type="button" className="option-btn-cart" onClick={onClickCart}>
           장바구니 담기
         </button>
-        <button type="button" className="option-btn-qr">
+        <Link
+          to="/qr"
+          state={{
+            item: {
+              ...item,
+              option: {
+                id: radio.id,
+                name: radio.name,
+                price: radio.price,
+              },
+              quantity: 1,
+            },
+          }}
+          className="option-btn-qr"
+        >
           주문QR 받기
-        </button>
+        </Link>
       </div>
     </div>
   );
