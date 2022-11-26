@@ -33,7 +33,7 @@ function OrderButton() {
                 <Link to="/order" className="StartButton-orderbutton" type="button" value="2" id="direct">
                     <div className="imgContainer"><img src={direct} alt="직접 주문" className="StartButton-buttonicon" /></div><br /> 직접 주문
                 </Link>
-                <Link to="/ingredient" className="StartButton-orderbutton" type="button" value="3" id="tag">
+                <Link to="/tag" className="StartButton-orderbutton" type="button" value="3" id="tag">
                     <div className="imgContainer"><img src={ingredient} alt="재료로 주문" className="StartButton-buttonicon" /></div> <br /> 재료로 주문
                 </Link>
             </div>
