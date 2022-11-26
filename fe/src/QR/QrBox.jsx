@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
 import QRCode from "qrcode.react";
 import Header from "../components/Header";
 import QRButton from "./QRButton";
@@ -35,10 +36,17 @@ const datas = [
 
 function QrBox() {
     const [items, setItems] = useState("");
+    const { state } = useLocation();
+    // eslint-disable-next-line
+    console.log(state);
 
     useEffect(() => {
-        setItems(localStorage.getItem('shoppingCart'));
-        // setItems(JSON.stringify(datas));
+        if(state == null) {
+            setItems(localStorage.getItem('shoppingCart'));
+            // setItems(JSON.stringify(datas));
+        } else {
+            setItems(state);
+        }
     });
 
     // eslint-disable-next-line

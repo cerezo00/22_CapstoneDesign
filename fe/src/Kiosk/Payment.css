@@ -24,6 +24,7 @@
 
 .Payment-back {
     background-color: white;
+    text-decoration: none;
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 0.5rem;
@@ -31,6 +32,8 @@
     font-size: 1.1rem;
     border-radius: 7px;
     border-color: #0c623475;
+    border-style: solid;
+    border-width: 2px;
     color: #0c6234e7;
     font-family: 'Noto Sans KR', sans-serif;
 }
