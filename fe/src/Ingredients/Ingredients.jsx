@@ -50,7 +50,7 @@ const Ingredients = function () {
               onChange={(e) => onCheckElement(e.target.checked, item.id)}
               checked={checkedArr.includes(item.id)}
             />
-            <span
+            <div
               className={
                 checkedArr.includes(item.id)
                   ? 'ingredients-check-btn__checked'
@@ -58,7 +58,7 @@ const Ingredients = function () {
               }
             >
               {item.name}
-            </span>
+            </div>
           </label>
         ))}
       </div>
