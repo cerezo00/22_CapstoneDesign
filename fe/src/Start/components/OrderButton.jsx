@@ -15,7 +15,7 @@ function OrderButton() {
         if(navigator.share) {
             event.preventDefault();
             navigator.share({
-                title: "주문을 부탁히셨습니다!",
+                title: "주문을 부탁하셨습니다!",
                 text: "주문을 부탁하셨습니다!",
                 url: 'https://semai.kro.kr',
               });
