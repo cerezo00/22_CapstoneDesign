@@ -33,10 +33,12 @@
 }
 
 /*.StartButton-orderbutton.active,*/
+/*
 .StartButton-orderbutton:hover {
     background-color: #0c6234de;
     color: rgba(255, 255, 255, 0.877);
 }
+*/
 
 #StartButton-help {
     width: 44vw;
@@ -55,7 +57,7 @@
 }
 
 .StartButton-container {
-    padding-top: 32vh;
+    padding-top: 27vh;
     overflow: hidden;
     float: right;
     margin-right: 1vw;
