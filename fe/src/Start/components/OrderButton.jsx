@@ -15,9 +15,9 @@ function OrderButton() {
         if(navigator.share) {
             event.preventDefault();
             navigator.share({
-                title: "주문 부탁드립니다!",
-                text: "QR order",
-                url: 'https://localhost:3000',
+                title: "주문을 부탁하셨습니다!",
+                text: "주문을 부탁하셨습니다!",
+                url: 'https://semai.kro.kr',
               });
         }else {
             // eslint-disable-next-line
