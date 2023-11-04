@@ -1,0 +1,29 @@
+.header {
+    height: 30px;
+    position: fixed;
+    top: 0;
+    background-color: #0c6234;
+    color: white;
+    width: 100%;
+    display: flex;
+    padding: 10px 0px;
+    align-items: center;
+}
+
+.header-back {
+    border: none;
+    background-color: inherit;
+    margin-right: 10px;
+    margin-left: 15px;
+    margin-top: 3px;
+}
+
+.header-img {
+    height: 18px;
+}
+
+.header-text {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+}

@@ -1,0 +1,70 @@
+.cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.cart-middle {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 130px;
+}
+
+.cart-bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding-top: 15px;
+    padding-bottom: 25px;
+    background-color: white;
+    border-top: 2px solid rgba(198, 198, 198, 0.474);
+}
+
+.cart-total {
+    text-align: end;
+    font-size: 20px;
+    display: block;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.cart-total-text {
+    color: rgb(93, 93, 93);
+    font-weight: 500;
+}
+
+.cart-total-price {
+    font-weight: 500;
+}
+
+
+.cart-order {
+    margin: 15px auto 0px auto;
+    width: 90%;
+    border: none;
+    border-radius: 20px;
+    padding: 12px;
+    font-size: 18px;
+    color: white;
+    background-color: #0c6234;
+    font-family: 'Noto Sans KR', sans-serif;
+    animation: scaleBounce 1s ;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes scaleBounce{
+	0% {transform:scale(1.0)}
+	50% {transform:scale(1.1)}
+    100% {transform:scale(1.0)}
+}

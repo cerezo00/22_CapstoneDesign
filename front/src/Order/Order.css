@@ -1,0 +1,29 @@
+.order {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.order-category{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-category-item {
+    height: 60px;
+    padding-left: 15px;
+    border: none;
+    color: black;
+    font-weight: 500;
+    font-size: 18px;
+    background-color: inherit;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+}
+
+.order-category-item:hover {
+    background-color: #0c6234;
+    color: white;
+}

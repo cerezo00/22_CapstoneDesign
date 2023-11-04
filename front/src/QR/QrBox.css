@@ -1,0 +1,43 @@
+.QrBox-message {
+    font-size: 110%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+    top: 13vh;
+    line-height: 2rem;
+    color: black;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+/*132F20*/
+.QrBox-payment {
+    color: #0c6234;
+    font-weight: bold;
+    font-size: 120%;
+    margin-bottom: 2vh;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.QrBox-scan {
+    font-weight: bolder;
+    font-size: 130%;
+    margin-bottom: 1vh;
+}
+
+.QrBox-guide {
+    display: inline-block;
+    width: 100%;
+    font-weight: bolder;
+    color: rgba(0, 0, 0, 0.589);
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.QrBox-span {
+    color:#f03312a1;
+}
+
+.QrBox-QRcode {
+    margin-top: 1.8vh;
+}
+.QrBox-container {
+    touch-action: none;
+}

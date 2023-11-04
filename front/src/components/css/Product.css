@@ -1,0 +1,39 @@
+.product {
+    display: flex;
+    width: 90%;
+    height: 150px;
+    margin: 0px auto;
+    align-items: center;
+    border-bottom: 1px solid rgba(158, 158, 158, 0.367);
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.product-img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+    margin-right: 15px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.product-name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.product-tag {
+    font-size: 16px;
+    color: gray;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 500;
+}
